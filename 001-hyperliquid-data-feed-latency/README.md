@@ -1,6 +1,6 @@
 # How Hyperliquid data feed latency is measured
 
-Author: Dean
+Author: Dean N.
 Date: 2026-10-30
 
 Latency is one of the critical components in a trading system. In this article, we will present a non-validator Hyperliquid node setup, and compare it with the public data feed, as well as some big data feed vendors, in several latency metrics during different market pressure situations.
