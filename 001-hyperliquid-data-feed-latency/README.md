@@ -69,7 +69,7 @@ The same split shows in the lag itself. In the quiet hour the node's 95th percen
 
 The node's delay was concentrated at the open. Its median lag on BTC trades went from 267 ms at 13:29 to 2,839 ms at 13:31 and 3,236 ms at 13:32, and was back under 600 ms by 13:34; the public feed's median peaked at 607 ms. For the rest of the hour the node stayed less steady than before: its 95th percentile was above the public feed's in 37 of the busy hour's 60 minutes, against 14 of 60 in the hour before the open, with short spikes such as 4.2 s at 14:19. Leaving out the first five minutes doesn't change the hour's result: from 13:35 to 14:30 the node was first on 37% of trades.
 
-In the terms of section 1, the extra delay came from propagation or execution on our node: blocks arriving late through its single sentry, or heavier blocks executing on 16 vCPU, half the 32 logical cores [Hyperliquid's latency guide](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/optimizing-latency) recommends. The next post in the series varies the peer and the hardware to find out which one it is.
+In the terms of section 1, the extra delay came from propagation or execution on our node: blocks arriving late through its single sentry, or heavier blocks executing on 16 vCPU, half the 32 logical cores [Hyperliquid's latency guide](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/optimizing-latency) recommends.
 
 ### 3.4 Against data feed vendors
 
