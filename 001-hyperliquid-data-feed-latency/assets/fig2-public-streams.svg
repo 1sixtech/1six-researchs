@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" width="760" height="330" role="img" aria-labelledby="t d"><title id="t">Public feed lag by stream, quiet hour</title><desc id="d">Median and 99th percentile lag of five public streams from Tokyo, quiet hour.</desc><style>
+text{font-family:Helvetica,Arial,sans-serif;fill:#52514e;font-size:14px}
+.t{fill:#0b0b0b;font-size:17px;font-weight:700}.l{fill:#0b0b0b}.b{font-weight:700}.w{fill:#ffffff;font-weight:700}
+.grid{stroke:#e1e0d9;stroke-width:1}.axis{stroke:#c3c2b7;stroke-width:1}
+@media (prefers-color-scheme: dark){
+text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+[fill="#fcfcfb"]{fill:#1a1a19}[stroke="#fcfcfb"]{stroke:#1a1a19}
+[fill="#2a78d6"]{fill:#3987e5}[stroke="#2a78d6"]{stroke:#3987e5}[fill="#9ec5f4"]{fill:#184f95}
+[fill="#eb6834"]{fill:#d95926}[stroke="#eb6834"]{stroke:#d95926}
+[stroke="#0b0b0b"]{stroke:#f0efec}}
+</style><rect width="760" height="330" fill="#fcfcfb"/>
+<text class="t" x="16" y="30">Public feed lag by stream, quiet hour</text>
+<rect x="16" y="49" width="14" height="14" rx="3" fill="#2a78d6"/><text x="36" y="61">median</text><rect x="110" y="49" width="14" height="14" rx="3" fill="#9ec5f4"/><text x="130" y="61">up to the 99th percentile</text>
+<line class="grid" x1="175.0" y1="86" x2="175.0" y2="286"/><text x="175.0" y="306" text-anchor="middle">0</text>
+<line class="grid" x1="303.75" y1="86" x2="303.75" y2="286"/><text x="303.75" y="306" text-anchor="middle">250</text>
+<line class="grid" x1="432.5" y1="86" x2="432.5" y2="286"/><text x="432.5" y="306" text-anchor="middle">500</text>
+<line class="grid" x1="561.25" y1="86" x2="561.25" y2="286"/><text x="561.25" y="306" text-anchor="middle">750</text>
+<line class="grid" x1="690.0" y1="86" x2="690.0" y2="286"/><text x="690.0" y="306" text-anchor="middle">1000</text>
+<text x="432.5" y="326" text-anchor="middle">milliseconds behind the exchange timestamp</text>
+<text class="l" x="163" y="114" text-anchor="end">Blocks</text>
+<rect x="175.0" y="100" width="167.89" height="20" rx="4" fill="#9ec5f4"/>
+<rect x="175.0" y="100" width="103.0" height="20" rx="4" fill="#2a78d6"/>
+<text class="w" x="272.0" y="115" text-anchor="end">200</text>
+<text class="l" x="350.89" y="115">326</text>
+<text class="l" x="163" y="154" text-anchor="end">Order book, fast</text>
+<rect x="175.0" y="140" width="416.635" height="20" rx="4" fill="#9ec5f4"/>
+<rect x="175.0" y="140" width="152.95500000000004" height="20" rx="4" fill="#2a78d6"/>
+<text class="w" x="321.95500000000004" y="155" text-anchor="end">297</text>
+<text class="l" x="599.635" y="155">809</text>
+<text class="l" x="163" y="194" text-anchor="end">Top of book</text>
+<rect x="175.0" y="180" width="448.04999999999995" height="20" rx="4" fill="#9ec5f4"/>
+<rect x="175.0" y="180" width="144.71500000000003" height="20" rx="4" fill="#2a78d6"/>
+<text class="w" x="313.71500000000003" y="195" text-anchor="end">281</text>
+<text class="l" x="631.05" y="195">870</text>
+<text class="l" x="163" y="234" text-anchor="end">Order book, default</text>
+<rect x="175.0" y="220" width="479.4649999999999" height="20" rx="4" fill="#9ec5f4"/>
+<rect x="175.0" y="220" width="172.01" height="20" rx="4" fill="#2a78d6"/>
+<text class="w" x="341.01" y="235" text-anchor="end">334</text>
+<text class="l" x="662.4649999999999" y="235">931</text>
+<text class="l" x="163" y="274" text-anchor="end">Trades</text>
+<rect x="175.0" y="260" width="506.76" height="20" rx="4" fill="#9ec5f4"/>
+<rect x="175.0" y="260" width="151.925" height="20" rx="4" fill="#2a78d6"/>
+<text class="w" x="320.925" y="275" text-anchor="end">295</text>
+<text class="l" x="689.76" y="275">984</text>
+</svg>

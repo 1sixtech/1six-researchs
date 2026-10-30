@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="760" height="360" role="img" aria-labelledby="t d"><title id="t">Lag: public feed vs own node, quiet and busy hour</title><desc id="d">Median and 95th percentile lag of BTC trades, public feed against own node, quiet hour and the hour after the US stock market opened.</desc><style>
+text{font-family:Helvetica,Arial,sans-serif;fill:#52514e;font-size:14px}
+.t{fill:#0b0b0b;font-size:17px;font-weight:700}.l{fill:#0b0b0b}.b{font-weight:700}.w{fill:#ffffff;font-weight:700}
+.grid{stroke:#e1e0d9;stroke-width:1}.axis{stroke:#c3c2b7;stroke-width:1}
+@media (prefers-color-scheme: dark){
+text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+[fill="#fcfcfb"]{fill:#1a1a19}[stroke="#fcfcfb"]{stroke:#1a1a19}
+[fill="#2a78d6"]{fill:#3987e5}[stroke="#2a78d6"]{stroke:#3987e5}[fill="#9ec5f4"]{fill:#184f95}
+[fill="#eb6834"]{fill:#d95926}[stroke="#eb6834"]{stroke:#d95926}
+[stroke="#0b0b0b"]{stroke:#f0efec}}
+</style><rect width="760" height="360" fill="#fcfcfb"/>
+<text class="t" x="16" y="30">Lag: public feed vs own node, quiet and busy hour</text>
+<rect x="16" y="51" width="14" height="14" rx="3" fill="#2a78d6"/><text x="36" y="63">Public feed</text><rect x="140" y="51" width="14" height="14" rx="3" fill="#eb6834"/><text x="160" y="63">Own node</text>
+<line class="grid" x1="56" y1="312.0" x2="744" y2="312.0"/><text x="48" y="317.0" text-anchor="end">0</text>
+<line class="grid" x1="56" y1="241.33333333333331" x2="744" y2="241.33333333333331"/><text x="48" y="246.33333333333331" text-anchor="end">1,000</text>
+<line class="grid" x1="56" y1="170.66666666666666" x2="744" y2="170.66666666666666"/><text x="48" y="175.66666666666666" text-anchor="end">2,000</text>
+<line class="grid" x1="56" y1="100.0" x2="744" y2="100.0"/><text x="48" y="105.0" text-anchor="end">3,000</text>
+<text class="l b" x="228.0" y="90" text-anchor="middle">Quiet hour</text>
+<rect x="104.0" y="291.224" width="36" height="20.77600000000001" rx="4" fill="#2a78d6"/>
+<text class="l" x="122.0" y="284.224" text-anchor="middle">294</text>
+<rect x="144.0" y="293.76800000000003" width="36" height="18.23199999999997" rx="4" fill="#eb6834"/>
+<text class="l" x="162.0" y="286.76800000000003" text-anchor="middle">258</text>
+<text x="142.0" y="334" text-anchor="middle">median</text>
+<rect x="276.0" y="257.516" width="36" height="54.48399999999998" rx="4" fill="#2a78d6"/>
+<text class="l" x="294.0" y="250.51600000000002" text-anchor="middle">771</text>
+<rect x="316.0" y="282.3906666666667" width="36" height="29.609333333333325" rx="4" fill="#eb6834"/>
+<text class="l" x="334.0" y="275.3906666666667" text-anchor="middle">419</text>
+<text x="314.0" y="334" text-anchor="middle">95th percentile</text>
+<text class="l b" x="572.0" y="90" text-anchor="middle">Busy hour</text>
+<rect x="448.0" y="286.4893333333333" width="36" height="25.51066666666668" rx="4" fill="#2a78d6"/>
+<text class="l" x="466.0" y="279.4893333333333" text-anchor="middle">361</text>
+<rect x="488.0" y="283.94533333333334" width="36" height="28.054666666666662" rx="4" fill="#eb6834"/>
+<text class="l" x="506.0" y="276.94533333333334" text-anchor="middle">397</text>
+<text x="486.0" y="334" text-anchor="middle">median</text>
+<rect x="620.0" y="253.7" width="36" height="58.30000000000001" rx="4" fill="#2a78d6"/>
+<text class="l" x="638.0" y="246.7" text-anchor="middle">825</text>
+<rect x="660.0" y="114.27466666666666" width="36" height="197.72533333333334" rx="4" fill="#eb6834"/>
+<text class="l" x="678.0" y="107.27466666666666" text-anchor="middle">2,798</text>
+<text x="658.0" y="334" text-anchor="middle">95th percentile</text>
+<line class="axis" x1="56" y1="312" x2="744" y2="312"/>
+<text x="16" y="354">milliseconds behind the exchange timestamp</text>
+</svg>

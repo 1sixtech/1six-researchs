@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="900" height="380" font-family="Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+  <title id="t">Where Hyperliquid data lag accrues</title>
+  <desc id="d">Validators pass blocks over the gossip network to a node, which executes them; an API service then delivers trades to our program. Propagation and execution together took about 258 ms at the median to our node. Delivery added an estimated 20 to 40 ms on the public side (API service, CloudFront, internet) and next to nothing on our own node's local API. Totals at the median in the quiet hour: about 294 ms via the public API, about 258 ms via our node.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#444"/>
+    </marker>
+  </defs>
+  <rect width="900" height="380" fill="#ffffff"/>
+
+  <rect x="20" y="135" width="120" height="60" rx="6" fill="#eef2f7" stroke="#444" stroke-width="1.5"/>
+  <text x="80" y="171" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Validators</text>
+
+  <rect x="175" y="135" width="140" height="60" rx="6" fill="#eef2f7" stroke="#444" stroke-width="1.5"/>
+  <text x="245" y="171" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Gossip network</text>
+
+  <text x="370" y="28" font-size="15" font-weight="600" fill="#111">Public feed</text>
+  <rect x="370" y="40" width="150" height="60" rx="6" fill="#ffffff" stroke="#444" stroke-width="1.5"/>
+  <text x="445" y="76" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Hyperliquid node</text>
+
+  <rect x="585" y="40" width="150" height="60" rx="6" fill="#ffffff" stroke="#444" stroke-width="1.5"/>
+  <text x="660" y="67" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Public API</text>
+  <text x="660" y="87" text-anchor="middle" font-size="14" fill="#444">CDN, internet</text>
+
+  <rect x="770" y="40" width="115" height="60" rx="6" fill="#fff4e0" stroke="#444" stroke-width="1.5"/>
+  <text x="827" y="64" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Program</text>
+  <text x="827" y="84" text-anchor="middle" font-size="14" font-weight="600" fill="#111">≈294 ms</text>
+
+  <text x="370" y="218" font-size="15" font-weight="600" fill="#111">Own node</text>
+  <rect x="370" y="230" width="150" height="60" rx="6" fill="#ffffff" stroke="#444" stroke-width="1.5"/>
+  <text x="445" y="266" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Our node</text>
+
+  <rect x="585" y="230" width="150" height="60" rx="6" fill="#ffffff" stroke="#444" stroke-width="1.5"/>
+  <text x="660" y="257" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Local API</text>
+  <text x="660" y="277" text-anchor="middle" font-size="14" fill="#444">same machine</text>
+
+  <rect x="770" y="230" width="115" height="60" rx="6" fill="#fff4e0" stroke="#444" stroke-width="1.5"/>
+  <text x="827" y="254" text-anchor="middle" font-size="16" font-weight="600" fill="#111">Program</text>
+  <text x="827" y="274" text-anchor="middle" font-size="14" font-weight="600" fill="#111">≈258 ms</text>
+
+  <line x1="140" y1="165" x2="173" y2="165" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M315,155 L340,155 L340,70 L368,70" fill="none" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M315,175 L340,175 L340,260 L368,260" fill="none" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <line x1="520" y1="70" x2="583" y2="70" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="735" y1="70" x2="768" y2="70" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M522,110 L522,114 L766,114 L766,110" fill="none" stroke="#b8501f" stroke-width="1.2"/>
+  <text x="645" y="130" text-anchor="middle" font-size="14" font-weight="600" fill="#b8501f">+20 to 40 ms</text>
+
+  <line x1="520" y1="260" x2="583" y2="260" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="735" y1="260" x2="768" y2="260" stroke="#444" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M522,300 L522,304 L766,304 L766,300" fill="none" stroke="#b8501f" stroke-width="1.2"/>
+  <text x="645" y="320" text-anchor="middle" font-size="14" font-weight="600" fill="#b8501f">≈0 ms</text>
+
+  <g stroke="#444" stroke-width="1.5" fill="none">
+    <path d="M22,334 L22,342 L516,342 L516,334"/>
+    <path d="M526,334 L526,342 L883,342 L883,334"/>
+  </g>
+  <text x="269" y="362" text-anchor="middle" font-size="15" font-weight="600" fill="#111">Propagation + execution: ≈258 ms</text>
+  <text x="704" y="362" text-anchor="middle" font-size="15" font-weight="600" fill="#111">Delivery</text>
+
+</svg>
