@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 400" width="760" height="400" role="img" aria-labelledby="t d"><title id="t">Residual gap vs Binance by venue group and asset tier</title><desc id="d">90th percentile of the minute-by-minute residual gap to Binance, after removing each pair's steady offset. Only small caps on large DEXs cross the 24 bps taker hurdle.</desc><style>
+text{font-family:Helvetica,Arial,sans-serif;fill:#52514e;font-size:14px}
+.t{fill:#0b0b0b;font-size:17px;font-weight:700}.l{fill:#0b0b0b}.b{font-weight:700}.w{fill:#ffffff;font-weight:700}.s{font-size:12px}
+.grid{stroke:#e1e0d9;stroke-width:1}.axis{stroke:#c3c2b7;stroke-width:1}.hur{stroke:#52514e;stroke-width:1.5;stroke-dasharray:6 4}
+@media (prefers-color-scheme: dark){
+text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{stroke:#383835}.hur{stroke:#c3c2b7}
+[fill="#fcfcfb"]{fill:#1a1a19}[fill="#2a78d6"]{fill:#3987e5}[fill="#9ec5f4"]{fill:#184f95}
+[fill="#eb6834"]{fill:#d95926}[fill="#f6c2a8"]{fill:#7a3416}[fill="#c3c2b7"]{fill:#5a5955}}
+</style><rect width="760" height="400" fill="#fcfcfb"/>
+<text class="t" x="16" y="30">Worst 10% of minutes: residual gap vs Binance, in bps</text>
+<rect x="16" y="51" width="14" height="14" rx="3" fill="#9ec5f4"/><text x="36" y="63">Big CEX</text><rect x="146" y="51" width="14" height="14" rx="3" fill="#2a78d6"/><text x="166" y="63">Large DEX</text><rect x="276" y="51" width="14" height="14" rx="3" fill="#eb6834"/><text x="296" y="63">Small DEX</text><line class="grid" x1="56" y1="320.0" x2="744" y2="320.0"/><text x="48" y="325.0" text-anchor="end">0</text>
+<line class="grid" x1="56" y1="245.0" x2="744" y2="245.0"/><text x="48" y="250.0" text-anchor="end">10</text>
+<line class="grid" x1="56" y1="170.0" x2="744" y2="170.0"/><text x="48" y="175.0" text-anchor="end">20</text>
+<line class="grid" x1="56" y1="95.0" x2="744" y2="95.0"/><text x="48" y="100.0" text-anchor="end">30</text>
+<line class="hur" x1="56" y1="230.0" x2="744" y2="230.0"/><text class="s" x="744" y="225.0" text-anchor="end">maker hurdle 12</text>
+<line class="hur" x1="56" y1="140.0" x2="744" y2="140.0"/><text class="s" x="744" y="135.0" text-anchor="end">taker hurdle 24</text>
+<rect x="76.0" y="303.5" width="40" height="16.5" rx="3" fill="#9ec5f4"/><text class="l s" x="96.0" y="297.5" text-anchor="middle">2.2</text><rect x="122.0" y="293.0" width="40" height="27.0" rx="3" fill="#2a78d6"/><text class="l s" x="142.0" y="287.0" text-anchor="middle">3.6</text><rect x="168.0" y="282.5" width="40" height="37.5" rx="3" fill="#eb6834"/><text class="l s" x="188.0" y="276.5" text-anchor="middle">5</text><text x="142.0" y="342" text-anchor="middle">Majors</text>
+<rect x="248.0" y="295.2" width="40" height="24.8" rx="3" fill="#9ec5f4"/><text class="l s" x="268.0" y="289.2" text-anchor="middle">3.3</text><rect x="294.0" y="211.2" width="40" height="108.8" rx="3" fill="#2a78d6"/><text class="l s" x="314.0" y="205.2" text-anchor="middle">14.5</text><rect x="340.0" y="259.2" width="40" height="60.8" rx="3" fill="#eb6834"/><text class="l s" x="360.0" y="253.2" text-anchor="middle">8.1</text><text x="314.0" y="342" text-anchor="middle">Mid caps</text>
+<rect x="420.0" y="279.5" width="40" height="40.5" rx="3" fill="#9ec5f4"/><text class="l s" x="440.0" y="273.5" text-anchor="middle">5.4</text><rect x="466.0" y="95.8" width="40" height="224.2" rx="3" fill="#2a78d6"/><text class="l s" x="486.0" y="89.8" text-anchor="middle">29.9</text><rect x="512.0" y="262.2" width="40" height="57.8" rx="3" fill="#eb6834"/><text class="l s" x="532.0" y="256.2" text-anchor="middle">7.7</text><text x="486.0" y="342" text-anchor="middle">Small caps</text>
+<rect x="592.0" y="188.8" width="40" height="131.2" rx="3" fill="#9ec5f4"/><text class="l s" x="612.0" y="182.8" text-anchor="middle">17.5</text><rect x="638.0" y="242.8" width="40" height="77.2" rx="3" fill="#2a78d6"/><text class="l s" x="658.0" y="236.8" text-anchor="middle">10.3</text><rect x="684.0" y="260.8" width="40" height="59.2" rx="3" fill="#eb6834"/><text class="l s" x="704.0" y="254.8" text-anchor="middle">7.9</text><text x="658.0" y="342" text-anchor="middle">Gold</text>
+<text class="s" x="16" y="366">Majors: BTC ETH SOL XRP BNB · Mid caps: DOGE HYPE LINK AVAX SUI ENA AAVE</text><text class="s" x="16" y="384">Small caps: WIF PENGU TIA FIL DASH MORPHO · Gold: XAU PAXG · 1-minute closes, 3–6 Nov 2026</text>
+</svg>
