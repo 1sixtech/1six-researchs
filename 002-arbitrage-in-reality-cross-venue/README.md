@@ -67,7 +67,7 @@ Thin books explain part of the small-cap gaps. In early November no trade printe
 
 ### 3.2 Lead–lag: Binance leads, the rest catch up within a minute
 
-![Lead–lag against Binance](assets/fig3-who-follows.svg)
+![Lead–lag against Binance](assets/fig3-lead-lag.svg)
 
 *Figure 3. Share of venue–asset pairs that lag Binance: their 1-minute returns correlate more with Binance's earlier returns than the reverse, 3 to 6 Nov 2026. Source: as Figure 2.*
 
