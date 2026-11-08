@@ -11,7 +11,7 @@ We tested cross-exchange arbitrage on 11 exchanges against Binance, across 20 co
 
 ## 1. The trade on paper
 
-Buy on the cheaper venue, sell on the dearer one, wait for the prices to meet, close both sides and keep the difference. It assumes four things: the two venues list the same asset, the prices meet, the gap is larger than the cost of trading it, and nobody else closes it first.
+Buy on the cheap venue, sell on the rich one, wait for the prices to converge, unwind both legs and keep the difference. It assumes four things: the two venues list the same asset, the prices converge, the gap is larger than the cost of trading it, and nobody else closes it first.
 
 ![The trade on paper and the gold trade](assets/fig1-paper-vs-gold.svg)
 
@@ -33,7 +33,7 @@ Buy on the cheaper venue, sell on the dearer one, wait for the prices to meet, c
 
 **Quiet and stressed days.** We ranked the days by Binance BTC's realised volatility. The 12 most volatile, a quarter of the window, are the stressed days; they include the sell-offs of 4 and 5 Nov. BTC's daily volatility was 2.1% to 3.2% on those days, against 0.4% to 1.6% on the calmest half.
 
-**Metrics.** The gap is the venue's price over Binance's, minus one, in bps (1 bp = 0.01%). Part of it is a steady offset, from quoting in USDC rather than USDT or tracking a different index, that never closes and cannot be traded. We take the median gap of each pair as its offset and report what is left, the residual, at its 90th percentile: one bar in ten is wider. Figures for a group are the median across its pairs. On dYdX we use the order-book mid. Elsewhere the close is the last trade, so a bar with no trade repeats an older price and overstates the gap. We checked each venue's bar timestamps against Binance's; all of them line up.
+**Metrics.** The gap is the venue's price over Binance's, minus one, in bps (1 bp = 0.01%). Part of it is a static offset, from quoting in USDC rather than USDT or tracking a different index, that never closes and cannot be traded. We take the median gap of each pair as its offset and report what is left, the residual, at its 90th percentile: one bar in ten is wider. Figures for a group are the median across its pairs. On dYdX we use the order-book mid. Elsewhere the close is the last trade, so a bar with no trade repeats an older price and overstates the gap. We checked each venue's bar timestamps against Binance's; all of them line up.
 
 ## 3. Results
 
@@ -49,7 +49,7 @@ Volatility moved these figures less than we expected. On stressed days the large
 
 Thin books explain part of the small-cap gaps. In early November no trade printed in 38% of minutes on Lighter and 49% on Aster. A bar with no trade shows an old price, so part of the gap is a stale print, not an order anyone could fill. Counting only minutes with trades, Lighter's median residual fell from 5.0 to 3.5 bps. They don't explain dYdX, where we use the mid and the gaps were widest.
 
-| Venue | Steady offset | Residual p90 | Bars above 24 bps | p90, quiet days | p90, stressed days |
+| Venue | Static offset | Residual p90 | Bars above 24 bps | p90, quiet days | p90, stressed days |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Bybit | −0.8 | 3.6 | 0% | 4.0 | 4.5 |
 | OKX | 0.0 | 3.3 | 0% | 3.7 | 3.8 |
@@ -65,19 +65,19 @@ Thin books explain part of the small-cap gaps. In early November no trade printe
 
 *Median across each venue's assets, in bps, 15-minute closes, 19 Sep to 8 Nov 2026. Quiet days are the calmest half. Pacifica returned 15-minute history for 4 of its assets, dYdX lists 15 of the 20.*
 
-### 3.2 Binance moves first, the rest catch up within a minute
+### 3.2 Lead–lag: Binance leads, the rest catch up within a minute
 
-![Who follows whom](assets/fig3-who-follows.svg)
+![Lead–lag against Binance](assets/fig3-who-follows.svg)
 
-*Figure 3. Share of venue–asset pairs whose 1-minute returns follow Binance's more than Binance's follow theirs, 3 to 6 Nov 2026. Source: as Figure 2.*
+*Figure 3. Share of venue–asset pairs that lag Binance: their 1-minute returns correlate more with Binance's earlier returns than the reverse, 3 to 6 Nov 2026. Source: as Figure 2.*
 
-Measured on candle closes, 73 of 75 pairs on the large DEXs moved after Binance, and 77 of 78 on the small DEXs. The link was strongest at one minute in 152 of 192 pairs, and a residual gap halved in a median of 1 to 2 minutes. Bybit and OKX were the exception: about half their pairs led and half followed, with almost no correlation either way, because they move at the same time as Binance.
+Measured on candle closes, 73 of 75 pairs on the large DEXs moved after Binance, and 77 of 78 on the small DEXs. The link was strongest at one minute in 152 of 192 pairs, and the residual had a median half-life of 1 to 2 minutes. Bybit and OKX were the exception: about half their pairs led and half followed, with almost no correlation either way, because they move at the same time as Binance.
 
 The lag was largest on dYdX, GRVT and ApeX: their 1-minute returns had a correlation of 0.54 to 0.77 with Binance's return one minute earlier. Part of this may come from how we measured prices rather than from the market.
 
 We can't see who sets these prices, only the footprint: DEX prices catch up with Binance within a minute or two, on large and small venues alike. Market makers quoting off Binance would leave this footprint, but so would any trader who watches Binance first.
 
-### 3.3 Steady offsets look like gaps but never close
+### 3.3 Static offsets look like gaps but never close
 
 Extended sat a median 8.2 bps below Binance and Orderly 7.4 bps below, across their assets. Both quote in USD or USDC against Binance's USDT, so part of the offset is the exchange rate between the two, but not all: Hyperliquid, Lighter and dYdX also quote in USDC and sat 0.2 to 2.3 bps above Binance. Bybit and OKX, which quote in USDT, were within 1 bp. Gold showed the same thing at a larger size: in early November the XAU perp on 8 of 9 venues sat 36 to 53 bps from Binance's, which follows a different reference price. Because that reference drifts, part of the drift is left in the residual: 21 bps for gold on Bybit and OKX in Figure 2.
 
@@ -90,23 +90,23 @@ Extended sat a median 8.2 bps below Binance and Orderly 7.4 bps below, across th
 
 *Hourly closes, 22 to 26 Aug 2026, in bps, the two venues compared directly. Source: both venues' public candle APIs.*
 
-In late August we saw a gold gap between Hyperliquid and Lighter. The two gold perps tracked each other within 11 bps for four days; the gap was between two forms of the gold token. Hyperliquid holds XAUT0, a LayerZero token; Lighter takes only native XAUT on Ethereum. Moving one into the other through the Ethereum lockbox took about 12 hours, according to our desk; we have not verified it.
+In late August we saw a gold gap between Hyperliquid and Lighter. The two gold perps tracked each other within 11 bps for four days; the gap was between two forms of the gold token. Hyperliquid holds XAUT0, a LayerZero OFT; Lighter takes only native XAUT on Ethereum. Moving one into the other through the Ethereum lockbox took about 12 hours, according to our desk; we have not verified it.
 
 ## 4. The breakeven gap
 
 ![The breakeven gap](assets/fig4-breakeven.svg)
 
-*Figure 4. Breakeven gap for a cross-venue round trip: fees on both legs plus leg-in, the price move between the first fill and the second. Fees exclude the bid–ask spread a taker pays. Leg-in measured between two venues from 1-minute closes on 8 coins, July 2026.*
+*Figure 4. Breakeven gap for a cross-venue round trip: fees on both legs plus legging cost, the price move between the first fill and the second. Fees exclude the bid–ask spread a taker pays. Legging cost measured between two venues from 1-minute closes on 8 coins, July 2026.*
 
-A cross-venue round trip has to clear at least 12 bps with maker orders and 24 bps with taker orders, plus the spread for takers, and up to 29.5 bps when the second leg fills badly. Against that breakeven:
+A cross-venue round trip has to clear at least 12 bps with maker orders and 24 bps with taker orders, plus the spread for takers, and up to 29.5 bps with heavy slippage on the second leg. Against that breakeven:
 
 - **Majors:** below the maker breakeven on every venue group, on stressed days too.
 - **Small caps on DEXs:** above the taker breakeven in 10% to 20% of bars, on books where a third to a half of minutes print no trade.
-- **Speed:** a gap halves in 1 to 2 minutes in 1-minute data, so we can't tell how fast it really closes; our order path to Hyperliquid takes about 0.5 seconds one way.
+- **Speed:** the residual's half-life is 1 to 2 minutes in 1-minute data, so we can't tell how fast it really closes; our one-way order latency to Hyperliquid is about 0.5 seconds.
 
 ## 5. The series
 
-Plain cross-venue arbitrage on the same perp was rarely profitable on the venues we tested, in quiet weeks and in sell-offs: the gaps are smaller than the cost, and the ones that are larger sit on books too thin to fill. The next parts look at trades where the price gap is not supposed to close by itself.
+Plain cross-venue arbitrage on the same perp was rarely profitable on the venues we tested, in quiet weeks and in sell-offs: the gaps are smaller than the cost, and the ones that are larger sit on books too thin to fill. The next parts look at trades where the spread is not expected to converge on its own.
 
 | Part | Arbitrage | Question |
 | --- | --- | --- |
@@ -139,5 +139,5 @@ Hyperliquid keeps the latest 5,000 candles per interval, which limits 1-minute d
 
 - Our measurements from the venues above: 15-minute closes 19 Sep to 8 Nov 2026, hourly closes 8 Sep to 8 Nov 2026, 1-minute closes 3 to 6 Nov 2026, hourly closes 22 to 26 Aug 2026.
 - Venue sheet `categorized_exchanges`, 28 Aug 2026: transfer routes and rails.
-- Internal research notes, July 2026: order path latency, leg-in measurement, fees.
+- Internal research notes, July 2026: order latency, legging cost, fees.
 - [Article 001: How Hyperliquid data feed latency is measured](../001-hyperliquid-data-feed-latency/README.md).
