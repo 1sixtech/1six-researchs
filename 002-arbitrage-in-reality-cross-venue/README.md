@@ -1,6 +1,6 @@
 # Arbitrage in reality, part 1: one coin, twelve venues
 
-Author: Hung P.
+Author: Henry P.
 Date: 2026-11-08
 
 This series takes well-known arbitrage trades one at a time and checks each one against what we measured. Part 1 is the simplest: the same perpetual future listed on two venues at two prices.
