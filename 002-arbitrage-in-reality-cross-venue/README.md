@@ -7,7 +7,7 @@ This series takes well-known arbitrage trades one at a time and checks each one 
 
 ## Key takeaways
 
-We tested cross-exchange arbitrage on 11 exchanges against Binance, across 20 coins over 50 days, and found it is rarely profitable. On the biggest coins, prices stayed within about 0.08% of Binance's 90% of the time, even during the November sell-offs, while trading the gap costs at least 0.12%. Some small coins showed bigger gaps, but these come partly from how we measured them and are unlikely to be tradeable in practice.
+- We tested cross-exchange arbitrage on 11 exchanges against Binance, across 20 coins over 50 days, and found it is rarely profitable. On the biggest coins, prices stayed within about 0.08% of Binance's 90% of the time, even during the November sell-offs, while trading the gap costs at least 0.12%. Some small coins showed bigger gaps, but these come partly from how we measured them and are unlikely to be tradeable in practice.
 
 ## 1. The trade on paper
 
