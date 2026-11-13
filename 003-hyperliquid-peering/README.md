@@ -16,9 +16,9 @@ This time we looked at the peering itself. We wrote a small crawler for the goss
 
 ## 1. How a node finds its peers
 
-A non-validating node starts from a list of seed peers, `root_node_ips` in `override_gossip_config.json`. It asks each one for its status on port 4002 and tries to open a block stream on port 4001. A peer only serves a limited number of nodes, and when it has no free slot it replies `Peer full`. If `try_new_peers` is on, the node then asks that peer which nodes it is streaming to and tries those next. It keeps walking down the tree this way until a peer accepts it.
+A non-validating node starts from a list of seed peers, `root_node_ips` in `override_gossip_config.json`. It asks each one for its status on port 4002 and tries to open a block stream on port 4001. We call the peer a node streams blocks from its parent peer, and the nodes it streams to its child peers, as the node's own status files do. A peer only takes a limited number of child peers, and when it has no free slot it replies `Peer full`. If `try_new_peers` is on, the node then asks that peer for its child peers and tries those next. It keeps walking down the tree this way until a peer accepts it.
 
-Our crawler does the same walk, using two requests on port 4002 (described in the appendix). We started it from all 51 official root peers: the 26 the API returns for `gossipRootIps` and the 25 in the README's community table. It found 775 nodes. Almost every root peer was already full. 44 of the 45 that answered were serving 7 or more nodes, and 8 seems to be the limit. Two thirds of the network, 516 nodes, sits two or more hops below a root peer, and three quarters of the nodes below the root peers stream from a single upstream peer.
+Our crawler does the same walk, using two requests on port 4002 (described in the appendix). We started it from all 51 official root peers: the 26 the API returns for `gossipRootIps` and the 25 in the README's community table. It found 775 nodes. Almost every root peer was already full. 44 of the 45 that answered had 7 or more child peers, and 8 seems to be the limit. Two thirds of the network, 516 nodes, sits two or more hops below a root peer, and three quarters of the nodes below the root peers have a single parent peer.
 
 Every block a node applies has been forwarded by each node above it, so the next question was how much each hop costs.
 
@@ -32,11 +32,11 @@ To measure lag, we asked every synced node for its block height at the same mome
 
 In Tokyo, the median node one hop down was 67 ms behind the root peers, two hops down 144 ms and three hops down 290 ms. Outside Tokyo the same positions were 300 to 900 ms behind. Location alone is not enough, though. A Tokyo node three hops down (290 ms) was almost as late as a node outside Tokyo one hop down (337 ms).
 
-![Lag by number of upstream peers](assets/fig2-lag-by-feeders.svg)
+![Lag by number of parent peers](assets/fig2-lag-by-feeders.svg)
 
-*Figure 2. Median and 75th percentile lag behind the root peers for Tokyo nodes two or more hops from a root peer, by number of upstream peers. Source: as Figure 1; 163 nodes.*
+*Figure 2. Median and 75th percentile lag behind the root peers for Tokyo nodes two or more hops from a root peer, by number of parent peers. Source: as Figure 1; 163 nodes.*
 
-Deeper nodes did better when they had more than one upstream peer, since a node applies whichever copy of a block arrives first. Among Tokyo nodes two or more hops down, the slowest quarter was more than 789 ms behind with one upstream peer, compared with 236 ms for nodes with three or more.
+Deeper nodes did better when they had more than one parent peer, since a node applies whichever copy of a block arrives first. Among Tokyo nodes two or more hops down, the slowest quarter was more than 789 ms behind with one parent peer, compared with 236 ms for nodes with three or more.
 
 ![Each root peer's lag behind the root-peer median, by list](assets/fig3-root-peers.svg)
 
@@ -52,15 +52,15 @@ Before the side-by-side test, we ran the node from article 001 a few times on th
 
 We restarted without that peer. After 11 more attempts the node attached to another pick that sent 1.86 MB/s, and it caught up nine minutes after the restart. A peer's upload rate does not show up in its status, only in the bytes arriving on the stream. The node's own log did not flag it either: from 06:21 to 06:25, while the node fell further behind, it logged nothing but applied blocks. Its warning that the gossip stream "fell behind, dropped oldest messages" appeared only while it was catching up. So for the side-by-side test we added a watchdog that drops a peer sending too little while the node falls behind.
 
-![Our node's lag behind the root peers, by upstream peer](assets/fig4-node-lag-by-upstream.svg)
+![Our node's lag behind the root peers, by parent peer](assets/fig4-node-lag-by-upstream.svg)
 
-*Figure 4. Our node's lag behind the root peers' block height, sampled about every 3 seconds: with the slow upstream peer from 06:19 UTC and with its replacement from 06:34 UTC on 2026-11-13. Source: our height queries from the node's machine.*
+*Figure 4. Our node's lag behind the root peers' block height, sampled about every 3 seconds: with the slow parent peer from 06:19 UTC and with its replacement from 06:34 UTC on 2026-11-13. Source: our height queries from the node's machine.*
 
-**The root peer above us.** With the second peer, our node ran 69 ms behind the root peers at the median. Its stream peer was 70 ms behind, and the root peer above that one, run by B-Harvest, was about 60 ms behind the median root peer. Most of our lag came from the root peer at the top, not from the hops below it. That is why we rank candidates by their own measured lag rather than by hops.
+**The root peer above us.** With the second peer, our node ran 69 ms behind the root peers at the median. Its parent peer was 70 ms behind, and the root peer above that one, run by B-Harvest, was about 60 ms behind the median root peer. Most of our lag came from the root peer at the top, not from the hops below it. That is why we rank candidates by their own measured lag rather than by hops.
 
 ![Our node, the peers we selected and their root peers](assets/fig5-peer-map.svg)
 
-*Figure 5. The root peers above the nine peers we selected (operators as listed in the node README; nodes each serves from our crawl), each selected peer's median lag behind the root peers, and the three peers our node used in the morning run (06:34 to 06:49 UTC). Source: our crawl at 06:03 UTC, our height queries and our node's log, 2026-11-13.*
+*Figure 5. The root peers above the nine peers we selected (operators as listed in the node README; child peers of each from our crawl), each selected peer's median lag behind the root peers, and the three peers our node used in the morning run (06:34 to 06:49 UTC). Source: our crawl at 06:03 UTC, our height queries and our node's log, 2026-11-13.*
 
 **The default settings.** In a trial on the official seed list with `try_new_peers` on, as the README suggests, the node took 35 attempts to get a peer and got within about nine minutes of the chain. Then it lost that peer and stopped applying blocks. After 31 minutes and 168 attempts, 129 of them answered `Peer full`, it still had not caught up.
 
@@ -100,11 +100,11 @@ Running the crawler by hand and reading its output was fine for one article but 
 
 *Figure 9. Our internal gossip dashboard, with IP addresses hidden. Root peers are on the left, then the nodes streaming from two or more root peers (with how many) and from just one. Each card shows the node's median lag behind the root peers over the last five minutes and whether it still has free slots, and each link is coloured by the lag of the node it feeds. Nodes two or more hops down are hidden unless switched on. Screenshot taken at 14:32 UTC on 2026-11-13.*
 
-Hovering over a node highlights its path up to the root peers and the nodes it serves; clicking it shows its lag over the last few minutes. A side panel lists the Tokyo nodes one hop below a root peer that still have free slots, ranked by their lag over the last five minutes, and can write them out as an `override_gossip_config.json`. We use it to pick peers before we start or restart a node, and to check whether the root peer above our node has started to fall behind.
+Hovering over a node highlights its path up to the root peers and its child peers; clicking it shows its lag over the last few minutes. A side panel lists the Tokyo nodes one hop below a root peer that still have free slots, ranked by their lag over the last five minutes, and can write them out as an `override_gossip_config.json`. We use it to pick peers before we start or restart a node, and to check whether the root peer above our node has started to fall behind.
 
 ## Appendix: the gossip messages and how we measured lag
 
-The gossip protocol is not documented, so we captured our node's traffic with `tcpdump` while it was looking for peers and matched the bytes against the message names in its log. Each message is a 4-byte big-endian length, a flag byte and a compact binary payload. We used two requests on port 4002. `0x01` (`Peers`) returns the nodes a peer is currently streaming to, as IP addresses with two flag bytes each. `0x02` (`GossipStatus`) returns, among other fields, the peer's latest block height, or nothing while it is still syncing. Following `Peers` from the root peers gives each node's hop count, and counting how many nodes list a node gives its number of upstream peers. In the node's log the same things appear as `verified_node_ips` (a peer's `Peers` list), `latest_height` (in `GossipStatus`), `Peer full` (the reply when a peer has no free slot) and `abci stream` (the block stream on port 4001).
+The gossip protocol is not documented, so we captured our node's traffic with `tcpdump` while it was looking for peers and matched the bytes against the message names in its log. Each message is a 4-byte big-endian length, a flag byte and a compact binary payload. We used two requests on port 4002. `0x01` (`Peers`) returns the nodes a peer is currently streaming to, as IP addresses with two flag bytes each. `0x02` (`GossipStatus`) returns, among other fields, the peer's latest block height, or nothing while it is still syncing. Following `Peers` from the root peers gives each node's hop count, and counting how many nodes list a node gives its number of parent peers. In the node's log the same things appear as `verified_node_ips` (a peer's `Peers` list), `latest_height` (in `GossipStatus`), `Peer full` (the reply when a peer has no free slot) and `abci stream` (the block stream on port 4001).
 
 For lag, each round queries all nodes at once. We shift each reported height to the round's median query time using the chain's measured rate of 14.0 blocks a second, then compare it with the median height of the root peers. Nodes that are still syncing, and a few that reported heights from another chain, are left out.
 

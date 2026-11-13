@@ -40,19 +40,19 @@ text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{
 <rect class="root" x="43.0" y="130" width="114" height="60" rx="6"/>
 <text class="w" x="100.0" y="151.0" text-anchor="middle" style="font-size:13px">Purrposeful x</text>
 <text class="w" x="100.0" y="167.0" text-anchor="middle" style="font-size:13px">HyBridge x PiP</text>
-<text class="w" x="100.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">serves 11</text>
+<text class="w" x="100.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">11 child peers</text>
 <rect class="root" x="163.0" y="130" width="114" height="60" rx="6"/>
 <text class="w" x="220.0" y="158.0" text-anchor="middle" style="font-size:13px">HypurrCorea</text>
-<text class="w" x="220.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">serves 8</text>
+<text class="w" x="220.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">8 child peers</text>
 <rect class="root" x="323.0" y="130" width="114" height="60" rx="6"/>
 <text class="w" x="380.0" y="158.0" text-anchor="middle" style="font-size:13px">B-Harvest</text>
-<text class="w" x="380.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">serves 11</text>
+<text class="w" x="380.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">11 child peers</text>
 <rect class="root" x="523.0" y="130" width="114" height="60" rx="6"/>
 <text class="w" x="580.0" y="158.0" text-anchor="middle" style="font-size:13px">B-Harvest</text>
-<text class="w" x="580.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">serves 13</text>
+<text class="w" x="580.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">13 child peers</text>
 <rect class="root" x="643.0" y="130" width="114" height="60" rx="6"/>
 <text class="w" x="700.0" y="158.0" text-anchor="middle" style="font-size:13px">HypurrCorea</text>
-<text class="w" x="700.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">serves 8</text>
+<text class="w" x="700.0" y="183.0" text-anchor="middle" style="font-weight:400;font-size:12px">8 child peers</text>
 <rect class="use" x="28" y="280" width="64" height="40" rx="6"/>
 <text class="w" x="60" y="305" text-anchor="middle">9</text>
 <text class="l b" x="60" y="342" text-anchor="middle">sent the</text>
@@ -67,7 +67,7 @@ text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{
 <text class="l" x="380" y="305" text-anchor="middle">70</text>
 <rect class="use" x="428" y="280" width="64" height="40" rx="6"/>
 <text class="w" x="460" y="305" text-anchor="middle">70</text>
-<text class="l b" x="470" y="342" text-anchor="start">stream peer,</text>
+<text class="l b" x="470" y="342" text-anchor="start">parent peer,</text>
 <text class="m" x="470" y="359" text-anchor="start">1.86 MB/s</text>
 <rect class="sel" x="508" y="280" width="64" height="40" rx="6"/>
 <text class="l" x="540" y="305" text-anchor="middle">73</text>
