@@ -50,9 +50,9 @@ The root peers are not equally fast either. Over half an hour of sampling from t
 
 Before the side-by-side test, we ran the node from article 001 a few times on the morning of 2026-11-13. Three things went wrong, and each one changed how we picked peers.
 
-**A peer that was too slow.** We built a list from the crawl, with the root peers first and then Tokyo nodes one hop down that had free slots and low lag, and turned `try_new_peers` off. The node got the chain state on its fourth attempt, attached to one of our picks and caught up about 12 minutes after start. Three minutes later it started falling behind. The peer was at the chain tip and looked fine from the outside, but it was sending us only 0.25 MB/s, while a live stream needs about 1.5 to 2 MB/s. Our node was applying about 2 blocks a second against the chain's 14.
+**A peer that was too slow.** Our first run used a list built from the crawl: the root peers, then Tokyo nodes one hop down with low lag, with `try_new_peers` off. The node caught up 12 minutes after start, then began falling behind three minutes later. Its peer was at the chain tip but was sending only 0.25 MB/s, while a live stream needs about 1.5 to 2 MB/s. Nothing warned us: the peer's status looked normal and our node's log showed nothing unusual. Only the incoming byte rate gave it away.
 
-We restarted without that peer. After 11 more attempts the node attached to another pick that sent 1.86 MB/s, and it caught up nine minutes after the restart. A peer's upload rate does not show up in its status, only in the bytes arriving on the stream. The node's own log did not flag it either: from 06:21 to 06:25, while the node fell further behind, it logged nothing but applied blocks. Its warning that the gossip stream "fell behind, dropped oldest messages" appeared only while it was catching up. So for the side-by-side test we added a watchdog that drops a peer sending too little while the node falls behind.
+We restarted without that peer, and the node caught up again on one that sent 1.86 MB/s. For the side-by-side test we added a watchdog that drops a peer when the node falls behind while the stream brings in less than 1 MB/s.
 
 ![Our node's lag behind the root peers, by parent peer](assets/fig4-node-lag-by-upstream.svg)
 
