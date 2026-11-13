@@ -18,7 +18,7 @@ Validators order transactions with HyperBFT and produce a block roughly every 70
 
 A trade's lag, from its exchange timestamp to the moment a program has it, builds up in three stages. Figure 1 gives each stage's share for BTC trades in our quiet hour, at the median:
 
-- **Propagation and execution (stages 1 and 2):** the block travels from the proposing validator to the node, and the node executes it. Together these took 258 ms on our node, and 397 ms in the hour after the US stock market opened. Our data can't separate the two.
+- **Propagation and execution (stages 1 and 2):** the block travels from the proposing validator to the node, and the node executes it. Counted from the block timestamp, these took 258 ms on our node, and 397 ms in the hour after the US stock market opened. Our data can't separate the two.
 - **Delivery (stage 3):** an API service passes the trade from the node to the program. On our node it runs on the same machine and adds next to nothing. On the public side, the API service, CloudFront and the internet add an estimated 20 to 40 ms: the public feed's median was 294 ms against our node's 258 ms, and per trade the public copy arrived a median 20 ms after the node's. The estimate assumes the API's node propagates and executes as fast as ours.
 
 Most of the lag is spent before any API is involved. Running your own node removes the CDN and internet hop, worth tens of milliseconds; the larger first part depends on the node's peers and machine, and when the US stock market opened it cost our node up to about 3 seconds.
@@ -68,8 +68,6 @@ The same split shows in the lag itself. In the quiet hour the node's 95th percen
 *Figure 5. 95th percentile lag of BTC trades, computed per minute and smoothed with a 5-minute rolling average, 12:30 to 14:30 UTC on 2026-10-29. Source: our node's trade stream and our collector, same host and clock.*
 
 The node's delay was concentrated at the open. Its median lag on BTC trades went from 267 ms at 13:29 to 2,839 ms at 13:31 and 3,236 ms at 13:32, and was back under 600 ms by 13:34; the public feed's median peaked at 607 ms. For the rest of the hour the node stayed less steady than before: its 95th percentile was above the public feed's in 37 of the busy hour's 60 minutes, against 14 of 60 in the hour before the open, with short spikes such as 4.2 s at 14:19. Leaving out the first five minutes doesn't change the hour's result: from 13:35 to 14:30 the node was first on 37% of trades.
-
-In the terms of section 1, the extra delay came from propagation or execution on our node: blocks arriving late through its single sentry, or heavier blocks executing on 16 vCPU, half the 32 logical cores [Hyperliquid's latency guide](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/optimizing-latency) recommends.
 
 ### 3.4 Against data feed vendors
 
