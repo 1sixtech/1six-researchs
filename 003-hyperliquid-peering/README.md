@@ -3,7 +3,7 @@
 Author: Dean N.
 Date: 2026-11-13
 
-A Hyperliquid node hears each block from the peer it streams from, so where it sits in the gossip network sets how late it is. Network explorers show who is connected to whom; they do not show what each position costs. We crawled the network from our node in Tokyo, measured how far behind the root peers every node runs, ran our node on different peer setups, and turned what we learned into two scripts you can run on your own node.
+A Hyperliquid node hears each block from the peer it streams from, so where it sits in the gossip network sets how late it is. Network explorers show who is connected to whom; they do not show what each position costs. We crawled the network from our node in Tokyo, measured how far behind the root peers every node runs, and ran our node side by side on three different peer setups.
 
 ## Key takeaways
 
@@ -64,7 +64,7 @@ To test this, we started three identical machines (AWS `r6i.4xlarge`, same zone 
 
 - **README default:** the 26 peers from `gossipRootIps`, `try_new_peers` on.
 - **One pinned peer:** a single open Tokyo node one or two hops below a root peer, chosen at random from the 68 our crawl found, the way an operator might pick one from an explorer.
-- **Our list and watchdog:** `pick_peers.py` (below), which listed the 51 root peers and the 12 best candidates by measured lag, and `peer_watchdog.py`.
+- **Our list and watchdog:** the 51 root peers followed by the 12 best candidates by measured lag from a fresh crawl, with `try_new_peers` off, and a watchdog that drops an upstream peer sending less than 1 MB/s while the node is more than 2 seconds behind, then restarts the node so it moves to the next peer in the list.
 
 ![Minutes from start to a caught-up node, by peer setup](assets/fig6-time-to-live-by-setup.svg)
 
@@ -86,15 +86,6 @@ Against the public feed, the node on measured peers matched it at the median, 25
 
 This is one run of 34 minutes with one machine per setup, and the pinned peer was a random draw; another draw could land closer to a root peer. What the run shows is the gap between an unmeasured choice and a measured one, on the same hardware at the same time.
 
-## 5. Do it on your node
-
-Both scripts are in the [`scripts`](scripts) folder next to this article, with the two helpers `pick_peers.py` imports (`crawl_gossip.py`, `sample_status.py`), and need only Python 3 on the node's machine. Copy all four to the same directory.
-
-1. **Pick peers.** `python3 pick_peers.py` collects the root peers (API and README), crawls the network, samples every node's height for a minute and writes `~/override_gossip_config.json`: root peers first, then the best candidates by measured lag, with `try_new_peers` off. Run it on the node's own machine so connect times reflect your location.
-2. **Start the node** as usual (`hl-visor run-non-validator ...`). It needs `--stream-with-block-info` and an output such as `--write-trades` for the watchdog to read its lag.
-3. **Watch the stream.** `python3 peer_watchdog.py --service <your unit>` checks the incoming rate on the node's block stream every 5 seconds. If the node is more than 2 seconds behind while the stream brings less than 1 MB/s for 30 seconds, it removes that peer from the config and restarts the node, which moves to the next peer in the list.
-4. **Re-run the picker** every few hours or after a restart: slots open and close, and root peers drift.
-
 ## Appendix: method and the two gossip messages
 
 The gossip messages are not documented, so we recorded our node's traffic while it searched for peers and matched the bytes to the names in its log. Each message is a 4-byte big-endian length, one flag byte and a compact binary payload. On port 4002, request `0x01` (`Peers`) returns the nodes a peer is currently streaming to, each as an IP address and two flag bytes; request `0x02` (`GossipStatus`) returns, among other fields, the peer's latest block height, or nothing while it is syncing. Following `Peers` links from the root peers gives hops; the number of nodes listing a node gives its upstream peers.
@@ -105,5 +96,5 @@ For lag, every round queries all target nodes at once; each height is shifted to
 
 - **Machines:** AWS `r6i.4xlarge` in Tokyo (ap-northeast-1, zone ID apne1-az1), 16 vCPU, 128 GiB of memory, gp3 volume, Ubuntu 24.04: our node from our data feed latency article (001) for the crawl and the morning runs, and three fresh machines for the side-by-side run.
 - **Node:** `hl-node` under `hl-visor`, run with `--write-trades --stream-with-block-info --disable-output-file-buffering`.
-- **Crawler and scripts:** our own Python, on each node's machine.
+- **Crawler, peer picker and watchdog:** our own Python, on each node's machine.
 - **Public feed:** the same collector as in article 001, subscribed to BTC trades on the public WebSocket API, on each node's machine and clock.
