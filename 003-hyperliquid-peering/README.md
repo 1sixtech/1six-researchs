@@ -1,100 +1,106 @@
-# Picking peers for a Hyperliquid node: what each choice costs, measured
+# How peer choice affects a Hyperliquid node's latency
 
 Author: Dean N.
 Date: 2026-11-13
 
-A Hyperliquid node hears each block from the peer it streams from, so where it sits in the gossip network sets how late it is. Network explorers show who is connected to whom; they do not show what each position costs. We crawled the network from our node in Tokyo, measured how far behind the root peers every node runs, and ran our node side by side on three different peer setups.
+In article 001 we ran our own non-validating Hyperliquid node and compared it with the public data feed. The hardest part of that work was getting the node connected. On the default peer settings it took 49 minutes to catch up, and most of its 174 connection attempts were answered with `Peer full`. In the end we pinned it to one peer from the README's list, without knowing whether that was a good choice or a lucky one.
+
+This time we looked at the peering itself. We wrote a small crawler for the gossip network, measured how far behind the root peers each node we could reach was running, and then started three identical nodes with different peer settings to see how much the choice matters in practice.
 
 ## Key takeaways
 
-- **Every hop costs time:** in Tokyo, the median node is 67 ms behind the root peers one hop down, 144 ms two hops down and 290 ms three hops down.
-- **Root peers are not equal:** the 26 root peers returned by the API ran a median 73 ms ahead of the 25 listed in the node README, and four root peers fell more than half a second behind in 20–34% of samples.
-- **The default setup barely works:** started side by side with two other setups, a node on the README defaults needed 45 minutes and 116 attempts to get a peer and never caught up; the other two were live in 7 to 8 minutes.
-- **Which peer you pin matters more than pinning:** over the same 34 minutes, a randomly chosen open peer left the node 495 ms behind the root peers at the median and 2 seconds at the 95th percentile; peers picked from measurements kept it at 69 and 142 ms.
-- **Measured peers beat the public feed's tail:** on BTC trades our node matched the public feed at the median (259 against 255 ms) and beat it at the 95th percentile (334 against 525 ms), receiving the trade first 43% of the time; the pinned node did so 3% of the time.
-- **A healthy-looking peer can starve you:** one peer we used was at the chain tip but sent only 0.25 MB/s, while a live stream needs about 1.5 to 2 MB/s.
+- **Default settings:** a node on the README's defaults needed 45 minutes just to get a peer, and it never caught up during the test.
+- **Hops:** in Tokyo, every hop away from a root peer added roughly 70 to 150 ms of lag at the median.
+- **Root peers:** the 26 root peers returned by the API ran a median 73 ms ahead of the 25 in the README's community list.
+- **Picked peers:** with peers chosen from our measurements, the node ran 69 ms behind the root peers at the median and beat the public feed on BTC trades at the 95th percentile, 334 ms against 525 ms. A node pinned to a random open peer ran about half a second behind.
 
-## 1. What decides how late your node is
+## 1. How a node finds its peers
 
-A non-validating node reads a list of seed peers (`root_node_ips`) from `override_gossip_config.json`, asks each for its status on port 4002 and opens a block stream on port 4001. Every block it applies has passed through each node between it and the validators, so each hop adds a forwarding delay, and the root peer at the top adds its own.
+A non-validating node starts from a list of seed peers, `root_node_ips` in `override_gossip_config.json`. It asks each one for its status on port 4002 and tries to open a block stream on port 4001. A peer only serves a limited number of nodes, and when it has no free slot it replies `Peer full`. If `try_new_peers` is on, the node then asks that peer which nodes it is streaming to and tries those next. It keeps walking down the tree this way until a peer accepts it.
 
-When a peer has no free slot it answers `Peer full`. With `try_new_peers` on, the node then takes that peer's own downstream peers as its next candidates and walks down until somebody accepts it. The root peers are almost always full: 44 of the 45 that answered our crawl were serving 7 or more nodes, and 8 looks like the default limit. So a node on the default settings ends up wherever the walk stops. Of the 775 nodes we found, 516 are two or more hops below a root peer, and three quarters of the nodes below the root peers have a single upstream peer.
+Our crawler does the same walk, using two requests on port 4002 (described in the appendix). We started it from all 51 official root peers: the 26 the API returns for `gossipRootIps` and the 25 in the README's community table. It found 775 nodes. Almost every root peer was already full. 44 of the 45 that answered were serving 7 or more nodes, and 8 seems to be the limit. Two thirds of the network, 516 nodes, sits two or more hops below a root peer, and three quarters of the nodes below the root peers stream from a single upstream peer.
 
-## 2. What each position costs
+Every block a node applies has been forwarded by each node above it, so the next question was how much each hop costs.
 
-To price these positions we crawled the network from our node's machine in AWS Tokyo, starting from the 51 official root peers, and queried every synced node's block height at the same moment, repeatedly. A node's lag is how many blocks it trails the median root peer, at 71 ms per block (method in the appendix).
+## 2. How much each hop costs
+
+To measure lag, we asked every synced node for its block height at the same moment, 60 times over two minutes, and compared each answer with the median root peer. The chain makes 14 blocks a second, so one block behind is about 71 ms. The appendix has the details.
 
 ![Lag behind the root peers, by hops](assets/fig1-lag-by-hop.svg)
 
 *Figure 1. Median lag behind the root peers' block height, by hops from a root peer. Tokyo nodes are those our machine reached in under 5 ms. Source: our crawl and 60 rounds of height queries, 06:03 to 06:05 UTC on 2026-11-13; 514 synced nodes.*
 
-In Tokyo, each hop adds roughly 70 to 150 ms at the median. Outside Tokyo the same positions cost 300 to 900 ms. A Tokyo node three hops down (290 ms) is nearly as late as a node outside Tokyo one hop down (337 ms), so moving your machine to Tokyo is only half of it.
+In Tokyo, the median node one hop down was 67 ms behind the root peers, two hops down 144 ms and three hops down 290 ms. Outside Tokyo the same positions were 300 to 900 ms behind. Location alone is not enough, though. A Tokyo node three hops down (290 ms) was almost as late as a node outside Tokyo one hop down (337 ms).
 
 ![Lag by number of upstream peers](assets/fig2-lag-by-feeders.svg)
 
 *Figure 2. Median and 75th percentile lag behind the root peers for Tokyo nodes two or more hops from a root peer, by number of upstream peers. Source: as Figure 1; 163 nodes.*
 
-The slow tail belongs to nodes with a single upstream peer. Among Tokyo nodes two or more hops down, the 75th percentile is 789 ms with one upstream peer and 236 ms with three or more: a node that hears each block from several directions takes whichever copy arrives first.
+Deeper nodes did better when they had more than one upstream peer, since a node applies whichever copy of a block arrives first. Among Tokyo nodes two or more hops down, the slowest quarter was more than 789 ms behind with one upstream peer, compared with 236 ms for nodes with three or more.
 
 ![Each root peer's lag behind the root-peer median, by list](assets/fig3-root-peers.svg)
 
 *Figure 3. Median lag of each root peer behind the median root peer, by the official list it comes from. Hollow markers fell more than 0.5 s behind in at least 10% of samples. Source: height queries every ~3 seconds from three machines in Tokyo, 08:22 to 08:55 UTC on 2026-11-13, about 2,000 samples per root peer; 44 of the 51 root peers answered throughout.*
 
-The top of the tree is uneven too. The root peers returned by the API's `gossipRootIps` request ran a median 3 ms ahead of the median root peer, and their 95th percentile never trailed it. The community root peers listed in the README ran a median 70 ms behind, with a 95th percentile of 121 ms. Four root peers, one from the API list and three from the README, were more than half a second behind in 20–34% of samples. Which root peer sits above you matters as much as how far below it you are.
+The root peers are not equally fast either. Over half an hour of sampling from three machines, the API's root peers ran a median 3 ms ahead of the median root peer, while the README's community root peers ran 70 ms behind. Four root peers, one from the API list and three from the README, were more than half a second behind in 20 to 34% of samples. Any node below one of them inherits that delay.
 
-## 3. Three traps
+## 3. What went wrong when we tried it
 
-**The default walk.** On the official seed list with `try_new_peers` on, as the README suggests, a fresh node spends its time collecting `Peer full` answers. In the side-by-side run below it made 116 attempts in 45 minutes before any peer accepted it, 235 attempts in all (181 `Peer full`, 51 timeouts), and never caught up. An earlier run the same morning lost its first peer after nine minutes and also never caught up, and on 2026-10-29 the same setup went 27 minutes without even receiving the chain state.
+Before the side-by-side test, we ran the node from article 001 a few times on the morning of 2026-11-13. Three things went wrong, and each one changed how we picked peers.
 
-**The peer that cannot keep up.** With our own list, the node attached to a selected peer that was itself at the chain tip, and fell behind three minutes after catching up. That peer sent us 0.25 MB/s; a live stream needs about 1.5 to 2 MB/s, and our node applied about 2 blocks a second against the chain's 14. Nothing in a peer's status or position shows this. You only see it in the incoming byte rate.
+**A peer that was too slow.** We built a list from the crawl, with the root peers first and then Tokyo nodes one hop down that had free slots and low lag, and turned `try_new_peers` off. The node got the chain state on its fourth attempt, attached to one of our picks and caught up about 12 minutes after start. Three minutes later it started falling behind. The peer was at the chain tip and looked fine from the outside, but it was sending us only 0.25 MB/s, while a live stream needs about 1.5 to 2 MB/s. Our node was applying about 2 blocks a second against the chain's 14.
+
+We restarted without that peer. After 11 more attempts the node attached to another pick that sent 1.86 MB/s, and it caught up nine minutes after the restart. A peer's upload rate does not show up in its status, only in the bytes arriving on the stream, so for the side-by-side test we added a watchdog that drops a peer sending too little while the node falls behind.
 
 ![Our node's lag behind the root peers, by upstream peer](assets/fig4-node-lag-by-upstream.svg)
 
 *Figure 4. Our node's lag behind the root peers' block height, sampled about every 3 seconds: with the slow upstream peer from 06:19 UTC and with its replacement from 06:34 UTC on 2026-11-13. Source: our height queries from the node's machine.*
 
-**The slow root.** A good peer one hop down is still only as early as its root peer. In our morning run, our stream peer sat under B-Harvest's root peer, which ran about 60 ms behind the median; our node ran 69 ms behind, its stream peer 70 ms, so the whole block of lag came from the root peer above.
+**The root peer above us.** With the second peer, our node ran 69 ms behind the root peers at the median. Its stream peer was 70 ms behind, and the root peer above that one, run by B-Harvest, was about 60 ms behind the median root peer. Most of our lag came from the root peer at the top, not from the hops below it. That is why we rank candidates by their own measured lag rather than by hops.
 
 ![Our node, the peers we selected and their root peers](assets/fig5-peer-map.svg)
 
 *Figure 5. The root peers above the nine peers we selected (operators as listed in the node README; nodes each serves from our crawl), each selected peer's median lag behind the root peers, and the three peers our node used in the morning run (06:34 to 06:49 UTC). Source: our crawl at 06:03 UTC, our height queries and our node's log, 2026-11-13.*
 
-## 4. Default, pinned and measured, side by side
+**The default settings.** In a trial on the official seed list with `try_new_peers` on, as the README suggests, the node took 35 attempts to get a peer and got within about nine minutes of the chain. Then it lost that peer and stopped applying blocks. After 31 minutes and 168 attempts, 129 of them answered `Peer full`, it still had not caught up.
 
-To test this, we started three identical machines (AWS `r6i.4xlarge`, same zone in Tokyo) at the same moment, 07:50 UTC, each with a different peer setup, and measured all three over the same 34 minutes once they had had 30 minutes to sync:
+## 4. Three setups side by side
 
-- **README default:** the 26 peers from `gossipRootIps`, `try_new_peers` on.
-- **One pinned peer:** a single open Tokyo node one or two hops below a root peer, chosen at random from the 68 our crawl found, the way an operator might pick one from an explorer.
-- **Our list and watchdog:** the 51 root peers followed by the 12 best candidates by measured lag from a fresh crawl, with `try_new_peers` off, and a watchdog that drops an upstream peer sending less than 1 MB/s while the node is more than 2 seconds behind, then restarts the node so it moves to the next peer in the list.
+To compare the setups properly, we started three identical machines (AWS `r6i.4xlarge`, same zone in Tokyo) at the same time, 07:50 UTC, each with different peer settings. We gave them 30 minutes to sync and then measured all three over the same 34 minutes:
+
+- **README default:** the 26 peers from `gossipRootIps`, with `try_new_peers` on.
+- **One pinned peer:** a single open Tokyo node one or two hops below a root peer, picked at random from the 68 our crawl found. This is roughly what you get by picking a peer off an explorer.
+- **Our list and watchdog:** the 51 root peers, then the 12 candidates with the lowest measured lag from a fresh crawl, with `try_new_peers` off. The watchdog removes the current peer and restarts the node if the node is more than 2 seconds behind while the stream brings less than 1 MB/s for 30 seconds.
 
 ![Minutes from start to a caught-up node, by peer setup](assets/fig6-time-to-live-by-setup.svg)
 
 *Figure 6. Minutes from starting the node until its trade stream was less than one second behind, for three machines started together at 07:50 UTC on 2026-11-13. Source: the nodes' own output and logs.*
 
-The pinned node and ours were live 6.9 and 7.5 minutes after start. The default node was still looking for a peer 45 minutes after start.
+The pinned node was live after 6.9 minutes and ours after 7.5. The default node did not get a peer until 45 minutes in, after 116 attempts, and never caught up. By the end of the run it had made 235 attempts, 181 of them answered `Peer full` and 51 timed out.
 
 ![Lag behind the root peers in the shared window, by peer setup](assets/fig7-lag-by-setup.svg)
 
 *Figure 7. Median and 95th percentile lag behind the root peers' block height, 08:22 to 08:55 UTC on 2026-11-13, about 670 samples per machine. Source: height queries from each machine to its own node and the 51 root peers.*
 
-Being connected is not the same as being early. The pinned peer put that node three hops below a root peer, and it ran 495 ms behind the root peers at the median, 2 seconds at the 95th percentile, and more than half a second behind in 44% of samples. With the measured list the node sat two hops down, 69 ms behind at the median and 142 ms at the 95th percentile, and never more than half a second behind. The watchdog did not need to step in: the first peer the node took kept up.
+The other two nodes stayed connected, but their lag was very different. The pinned peer was two hops down, which put that node three hops below a root peer. It ran 495 ms behind the root peers at the median and 2 seconds at the 95th percentile, and it was more than half a second behind in 44% of samples. The node on our list sat two hops down and ran 69 ms behind at the median and 142 ms at the 95th percentile. It was never more than half a second behind, and the watchdog never had to drop a peer.
 
 ![Which side received each trade first, by peer setup](assets/fig8-who-first-by-setup.svg)
 
 *Figure 8. Share of matched BTC trades that reached the public feed first or the node first, and by how much, 08:22 to 08:55 UTC on 2026-11-13; 14,536 matched trades for our setup, 14,530 for the pinned peer. Source: each machine's node and a public-feed collector on the same machine and clock.*
 
-Against the public feed, the node on measured peers matched it at the median, 259 against 255 ms on BTC trades, and beat it in the tail: 334 against 525 ms at the 95th percentile and 405 against 680 ms at the 99th. It had the trade first 43% of the time, 8% of the time by more than 200 ms. The node on the pinned peer was first on 3% of trades, and the default node, never caught up, on none.
+As in article 001, we also ran a public-feed collector on each machine and matched BTC trades between the node and the feed. Measured from the exchange timestamp, the node on our list was level with the public feed at the median (259 ms against 255 ms) and well ahead in the tail: 334 against 525 ms at the 95th percentile and 405 against 680 ms at the 99th. It received the trade first 43% of the time. The pinned node was first on 3% of trades, and the default node, which never caught up, on none.
 
-This is one run of 34 minutes with one machine per setup, and the pinned peer was a random draw; another draw could land closer to a root peer. What the run shows is the gap between an unmeasured choice and a measured one, on the same hardware at the same time.
+This was a single 34-minute run with one machine per setup, and the pinned peer was a random draw, so a different draw could have landed closer to a root peer.
 
-## Appendix: method and the two gossip messages
+## Appendix: the gossip messages and how we measured lag
 
-The gossip messages are not documented, so we recorded our node's traffic while it searched for peers and matched the bytes to the names in its log. Each message is a 4-byte big-endian length, one flag byte and a compact binary payload. On port 4002, request `0x01` (`Peers`) returns the nodes a peer is currently streaming to, each as an IP address and two flag bytes; request `0x02` (`GossipStatus`) returns, among other fields, the peer's latest block height, or nothing while it is syncing. Following `Peers` links from the root peers gives hops; the number of nodes listing a node gives its upstream peers.
+The gossip protocol is not documented, so we captured our node's traffic with `tcpdump` while it was looking for peers and matched the bytes against the message names in its log. Each message is a 4-byte big-endian length, a flag byte and a compact binary payload. We used two requests on port 4002. `0x01` (`Peers`) returns the nodes a peer is currently streaming to, as IP addresses with two flag bytes each. `0x02` (`GossipStatus`) returns, among other fields, the peer's latest block height, or nothing while it is still syncing. Following `Peers` from the root peers gives each node's hop count, and counting how many nodes list a node gives its number of upstream peers.
 
-For lag, every round queries all target nodes at once; each height is shifted to the round's median query time at the chain's measured rate (14.0 blocks per second); the reference is the median height of the root peers; nodes reporting heights from another chain or still syncing are left out.
+For lag, each round queries all nodes at once. We shift each reported height to the round's median query time using the chain's measured rate of 14.0 blocks a second, then compare it with the median height of the root peers. Nodes that are still syncing, and a few that reported heights from another chain, are left out.
 
 ## Our setup
 
-- **Machines:** AWS `r6i.4xlarge` in Tokyo (ap-northeast-1, zone ID apne1-az1), 16 vCPU, 128 GiB of memory, gp3 volume, Ubuntu 24.04: our node from our data feed latency article (001) for the crawl and the morning runs, and three fresh machines for the side-by-side run.
+- **Machines:** AWS `r6i.4xlarge` in Tokyo (ap-northeast-1, zone ID apne1-az1), 16 vCPU, 128 GiB of memory, gp3 volume, Ubuntu 24.04. The node from article 001 for the crawl and the morning runs, and three fresh machines for the side-by-side run.
 - **Node:** `hl-node` under `hl-visor`, run with `--write-trades --stream-with-block-info --disable-output-file-buffering`.
-- **Crawler, peer picker and watchdog:** our own Python, on each node's machine.
+- **Crawler, peer picker and watchdog:** our own Python, run on each node's machine.
 - **Public feed:** the same collector as in article 001, subscribed to BTC trades on the public WebSocket API, on each node's machine and clock.
