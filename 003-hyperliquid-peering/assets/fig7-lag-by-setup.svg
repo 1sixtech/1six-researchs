@@ -17,7 +17,7 @@ text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{
 <line class="grid" x1="493.9171544349392" y1="80" x2="493.9171544349392" y2="230"/><text x="493.9171544349392" y="250" text-anchor="middle">1500</text>
 <line class="grid" x1="595.2228725799189" y1="80" x2="595.2228725799189" y2="230"/><text x="595.2228725799189" y="250" text-anchor="middle">2000</text>
 <text x="415.0" y="270" text-anchor="middle">milliseconds behind the root peers</text>
-<text class="l" x="178" y="106" text-anchor="end">README default</text>
+<text class="l" x="178" y="106" text-anchor="end">Searching (try_new_peers on)</text>
 <text class="l" x="198.0" y="107">not caught up (19 minutes behind at the median)</text>
 <text class="l" x="178" y="152" text-anchor="end">One pinned peer</text>
 <rect x="190.0" y="136" width="409.4777127420082" height="24" rx="4" fill="#f6b89c"/>

@@ -18,7 +18,7 @@ text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{
 <line class="grid" x1="590.0" y1="70" x2="590.0" y2="224"/><text x="590.0" y="244" text-anchor="middle">25</text>
 <line class="grid" x1="670.0" y1="70" x2="670.0" y2="224"/><text x="670.0" y="244" text-anchor="middle">30</text>
 <text x="430.0" y="264" text-anchor="middle">minutes after start</text>
-<text class="l" x="178" y="100" text-anchor="end">README default</text>
+<text class="l" x="178" y="100" text-anchor="end">Searching (try_new_peers on)</text>
 <rect x="190.0" y="84" width="480.0" height="24" rx="4" fill="#898781" opacity="0.35"/>
 <text class="l" x="678.0" y="101">not after 30</text>
 <text class="l" x="178" y="146" text-anchor="end">One pinned peer</text>

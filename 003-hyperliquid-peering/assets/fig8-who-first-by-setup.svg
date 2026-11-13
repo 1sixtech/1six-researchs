@@ -14,7 +14,7 @@ text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{
 <rect x="186" y="51" width="14" height="14" rx="3" fill="#f6b89c"/><text x="206" y="63">Node, by under 50 ms</text>
 <rect x="366" y="51" width="14" height="14" rx="3" fill="#f08f63"/><text x="386" y="63">Node, by 50–200 ms</text>
 <rect x="556" y="51" width="14" height="14" rx="3" fill="#eb6834"/><text x="576" y="63">Node, by over 200 ms</text>
-<text class="l" x="178" y="132" text-anchor="end">README default</text>
+<text class="l" x="178" y="132" text-anchor="end">Searching (try_new_peers on)</text>
 <rect x="190.0" y="110" width="540.0" height="32" fill="#2a78d6"/>
 <text class="w" x="460.0" y="131" text-anchor="middle">100%</text>
 <rect x="730.0" y="110" width="0.0" height="32" fill="#f6b89c"/>

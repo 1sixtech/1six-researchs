@@ -3,13 +3,13 @@
 Author: Dean N.
 Date: 2026-11-13
 
-In article 001 we ran our own non-validator Hyperliquid node and compared it with the public data feed. The hardest part of that work was getting the node connected. On the default peer settings it took 49 minutes to catch up, and most of its 174 connection attempts were answered with `Peer full`. In the end we pinned it to one peer from the README's list, without knowing whether that was a good choice or a lucky one.
+In article 001 we ran our own non-validator Hyperliquid node and compared it with the public data feed. The hardest part of that work was getting the node connected. Left to find peers on its own, from the API's root peer list with `try_new_peers` on, it made 174 connection attempts in 27 minutes, most of them answered with `Peer full`, and it took 49 minutes in all to catch up. In the end we pinned it to one peer from the README's list, without knowing whether that was a good choice or a lucky one.
 
 This time we looked at the peering itself. We wrote a small crawler for the gossip network, measured how far behind the root peers each node we could reach was running, and then started three identical nodes with different peer settings to see how much the choice matters in practice. Afterwards we turned the crawler into an internal dashboard, which we describe at the end.
 
 ## Key takeaways
 
-- **Default settings:** a node on the README's defaults needed 45 minutes just to get a peer, and it never caught up during the test.
+- **Searching for peers:** a node given the API's root peers with `try_new_peers` on, left to find a free slot by itself, needed 45 minutes just to get a peer and never caught up during the test.
 - **Hops:** in Tokyo, every hop away from a root peer added roughly 70 to 150 ms of lag at the median.
 - **Root peers:** the Foundation nodes ran a median 73 ms ahead of the root peers run by validators.
 - **Picked peers:** with peers chosen from our measurements, the node ran 69 ms behind the root peers at the median and beat the public feed on BTC trades at the 95th percentile, 334 ms against 525 ms. A node pinned to a random open peer ran about half a second behind.
@@ -50,7 +50,7 @@ The root peers are not equally fast either. Over half an hour of sampling from t
 
 To compare the setups properly, we started three identical machines (AWS `r6i.4xlarge`, same zone in Tokyo) at the same time, 07:50 UTC, each with different peer settings. We gave them 30 minutes to sync and then measured all three over the same 34 minutes:
 
-- **README default:** the 26 Foundation nodes from `gossipRootIps`, with `try_new_peers` on.
+- **Searching from the API's root peers:** the 26 Foundation nodes from `gossipRootIps`, with `try_new_peers` on, so the node walks down the tree until a peer accepts it.
 - **One pinned peer:** a single open Tokyo node one or two hops below a root peer, picked at random from the 68 our crawl found. This is roughly what you get by picking a peer off an explorer.
 - **Our list and watchdog:** the 51 root peers, then the 12 candidates with the lowest measured lag from a fresh crawl, with `try_new_peers` off. The watchdog removes the current peer and restarts the node if the node is more than 2 seconds behind while the stream brings less than 1 MB/s for 30 seconds. We added it after a test run that morning, when a peer at the chain tip sent our node only 0.25 MB/s, about a sixth of what a live stream needs, and nothing in the peer's status or our node's log showed it.
 
@@ -58,7 +58,7 @@ To compare the setups properly, we started three identical machines (AWS `r6i.4x
 
 *Figure 4. Minutes from starting the node until its trade stream was less than one second behind, for three machines started together at 07:50 UTC on 2026-11-13. Source: the nodes' own output and logs.*
 
-The pinned node was live after 6.9 minutes and ours after 7.5. The default node did not get a peer until 45 minutes in, after 116 attempts, and never caught up. By the end of the run it had made 235 attempts, 181 of them answered `Peer full` and 51 timed out.
+The pinned node was live after 6.9 minutes and ours after 7.5. The searching node did not get a peer until 45 minutes in, after 116 attempts, and never caught up. By the end of the run it had made 235 attempts, 181 of them answered `Peer full` and 51 timed out.
 
 ![Lag behind the root peers in the shared window, by peer setup](assets/fig7-lag-by-setup.svg)
 
@@ -70,7 +70,7 @@ The other two nodes stayed connected, but their lag was very different. The pinn
 
 *Figure 6. Share of matched BTC trades that reached the public feed first or the node first, and by how much, 08:22 to 08:55 UTC on 2026-11-13; 14,536 matched trades for our setup, 14,530 for the pinned peer. Source: each machine's node and a public-feed collector on the same machine and clock.*
 
-As in article 001, we also ran a public-feed collector on each machine and matched BTC trades between the node and the feed. Measured from the exchange timestamp, the node on our list was level with the public feed at the median (259 ms against 255 ms) and well ahead in the tail: 334 against 525 ms at the 95th percentile and 405 against 680 ms at the 99th. It received the trade first 43% of the time. The pinned node was first on 3% of trades, and the default node, which never caught up, on none.
+As in article 001, we also ran a public-feed collector on each machine and matched BTC trades between the node and the feed. Measured from the exchange timestamp, the node on our list was level with the public feed at the median (259 ms against 255 ms) and well ahead in the tail: 334 against 525 ms at the 95th percentile and 405 against 680 ms at the 99th. It received the trade first 43% of the time. The pinned node was first on 3% of trades, and the searching node, which never caught up, on none.
 
 This was a single 34-minute run with one machine per setup, and the pinned peer was a random draw, so a different draw could have landed closer to a root peer.
 
