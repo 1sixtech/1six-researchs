@@ -28,11 +28,11 @@ Every block a node applies has been forwarded by each node above it, so the next
 
 To measure lag, we asked every synced node for its block height at the same moment, 60 times over two minutes, and compared each answer with the median root peer. The chain makes 14 blocks a second, so one block behind is about 71 ms. The appendix has the details.
 
-![Lag behind the root peers, by hops](assets/fig1-lag-by-hop.svg)
+![Lag behind the root peers, by hops, for nodes in Tokyo](assets/fig1-lag-by-hop.svg)
 
-*Figure 1. Median lag behind the root peers' block height, by hops from a root peer. Tokyo nodes are those our machine reached in under 5 ms. Source: our crawl and 60 rounds of height queries, 06:03 to 06:05 UTC on 2026-11-13; 514 synced nodes.*
+*Figure 1. Median lag behind the root peers' block height of nodes in Tokyo (those our machine reached in under 5 ms), by hops from a root peer. Source: our crawl and 60 rounds of height queries, 06:03 to 06:05 UTC on 2026-11-13; 262 synced nodes in Tokyo.*
 
-In Tokyo, the median node one hop down was 67 ms behind the root peers, two hops down 144 ms and three hops down 290 ms. Outside Tokyo the same positions were 300 to 900 ms behind. Location alone is not enough, though. A Tokyo node three hops down (290 ms) was almost as late as a node outside Tokyo one hop down (337 ms).
+In Tokyo, the median node one hop down was 67 ms behind the root peers, two hops down 144 ms and three hops down 290 ms. We leave nodes outside Tokyo out of these numbers: distance alone adds tens to hundreds of milliseconds for them, whatever their peers.
 
 ![Lag by number of parent peers](assets/fig2-lag-by-feeders.svg)
 
