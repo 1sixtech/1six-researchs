@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 274" width="760" height="274" role="img" aria-labelledby="t d"><title id="t">Lag behind the root peers in the shared window, by peer setup</title><desc id="d">Median and 95th percentile lag behind the root peers' block height during the same window, per peer setup.</desc><style>
+text{font-family:Helvetica,Arial,sans-serif;fill:#52514e;font-size:14px}
+.t{fill:#0b0b0b;font-size:17px;font-weight:700}.l{fill:#0b0b0b}.b{font-weight:700}.w{fill:#ffffff;font-weight:700}
+.grid{stroke:#e1e0d9;stroke-width:1}.axis{stroke:#c3c2b7;stroke-width:1}
+@media (prefers-color-scheme: dark){
+text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+[fill="#fcfcfb"]{fill:#1a1a19}[stroke="#fcfcfb"]{stroke:#1a1a19}
+[fill="#2a78d6"]{fill:#3987e5}[stroke="#2a78d6"]{stroke:#3987e5}[fill="#9ec5f4"]{fill:#184f95}
+[fill="#eb6834"]{fill:#d95926}[stroke="#eb6834"]{stroke:#d95926}[fill="#f6b89c"]{fill:#8a3a17}
+[stroke="#0b0b0b"]{stroke:#f0efec}}
+</style><rect width="760" height="274" fill="#fcfcfb"/>
+<text class="t" x="16" y="30">Lag behind the root peers in the shared window, by peer setup</text>
+<rect x="16" y="49" width="14" height="14" rx="3" fill="#eb6834"/><text x="36" y="61">median</text><rect x="110" y="49" width="14" height="14" rx="3" fill="#f6b89c"/><text x="130" y="61">up to the 95th percentile</text>
+<line class="grid" x1="190.0" y1="80" x2="190.0" y2="230"/><text x="190.0" y="250" text-anchor="middle">0</text>
+<line class="grid" x1="291.3057181449797" y1="80" x2="291.3057181449797" y2="230"/><text x="291.3057181449797" y="250" text-anchor="middle">500</text>
+<line class="grid" x1="392.61143628995944" y1="80" x2="392.61143628995944" y2="230"/><text x="392.61143628995944" y="250" text-anchor="middle">1000</text>
+<line class="grid" x1="493.9171544349392" y1="80" x2="493.9171544349392" y2="230"/><text x="493.9171544349392" y="250" text-anchor="middle">1500</text>
+<line class="grid" x1="595.2228725799189" y1="80" x2="595.2228725799189" y2="230"/><text x="595.2228725799189" y="250" text-anchor="middle">2000</text>
+<text x="415.0" y="270" text-anchor="middle">milliseconds behind the root peers</text>
+<text class="l" x="178" y="106" text-anchor="end">README default</text>
+<text class="l" x="198.0" y="107">not caught up (19 minutes behind at the median)</text>
+<text class="l" x="178" y="152" text-anchor="end">One pinned peer</text>
+<rect x="190.0" y="136" width="409.4777127420082" height="24" rx="4" fill="#f6b89c"/>
+<rect x="190.0" y="136" width="100.29266096352995" height="24" rx="4" fill="#eb6834"/>
+<text class="l" x="607.4777127420082" y="153">495 / 2021</text>
+<text class="l" x="178" y="198" text-anchor="end">Our list + watchdog</text>
+<rect x="190.0" y="182" width="28.770823953174244" height="24" rx="4" fill="#f6b89c"/>
+<rect x="190.0" y="182" width="13.980189104007195" height="24" rx="4" fill="#eb6834"/>
+<text class="l" x="226.77082395317424" y="199">69 / 142</text>
+</svg>

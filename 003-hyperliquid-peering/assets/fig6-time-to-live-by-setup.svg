@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 268" width="760" height="268" role="img" aria-labelledby="t d"><title id="t">Minutes from start to a caught-up node, by peer setup</title><desc id="d">Minutes from starting the node to its trade stream being less than one second behind, per peer setup, all started together.</desc><style>
+text{font-family:Helvetica,Arial,sans-serif;fill:#52514e;font-size:14px}
+.t{fill:#0b0b0b;font-size:17px;font-weight:700}.l{fill:#0b0b0b}.b{font-weight:700}.w{fill:#ffffff;font-weight:700}
+.grid{stroke:#e1e0d9;stroke-width:1}.axis{stroke:#c3c2b7;stroke-width:1}
+@media (prefers-color-scheme: dark){
+text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+[fill="#fcfcfb"]{fill:#1a1a19}[stroke="#fcfcfb"]{stroke:#1a1a19}
+[fill="#2a78d6"]{fill:#3987e5}[stroke="#2a78d6"]{stroke:#3987e5}[fill="#9ec5f4"]{fill:#184f95}
+[fill="#eb6834"]{fill:#d95926}[stroke="#eb6834"]{stroke:#d95926}[fill="#f6b89c"]{fill:#8a3a17}
+[stroke="#0b0b0b"]{stroke:#f0efec}}
+</style><rect width="760" height="268" fill="#fcfcfb"/>
+<text class="t" x="16" y="30">Minutes from start to a caught-up node, by peer setup</text>
+<line class="grid" x1="190.0" y1="70" x2="190.0" y2="224"/><text x="190.0" y="244" text-anchor="middle">0</text>
+<line class="grid" x1="270.0" y1="70" x2="270.0" y2="224"/><text x="270.0" y="244" text-anchor="middle">5</text>
+<line class="grid" x1="350.0" y1="70" x2="350.0" y2="224"/><text x="350.0" y="244" text-anchor="middle">10</text>
+<line class="grid" x1="430.0" y1="70" x2="430.0" y2="224"/><text x="430.0" y="244" text-anchor="middle">15</text>
+<line class="grid" x1="510.0" y1="70" x2="510.0" y2="224"/><text x="510.0" y="244" text-anchor="middle">20</text>
+<line class="grid" x1="590.0" y1="70" x2="590.0" y2="224"/><text x="590.0" y="244" text-anchor="middle">25</text>
+<line class="grid" x1="670.0" y1="70" x2="670.0" y2="224"/><text x="670.0" y="244" text-anchor="middle">30</text>
+<text x="430.0" y="264" text-anchor="middle">minutes after start</text>
+<text class="l" x="178" y="100" text-anchor="end">README default</text>
+<rect x="190.0" y="84" width="480.0" height="24" rx="4" fill="#898781" opacity="0.35"/>
+<text class="l" x="678.0" y="101">not after 30</text>
+<text class="l" x="178" y="146" text-anchor="end">One pinned peer</text>
+<rect x="190.0" y="130" width="110.39999999999998" height="24" rx="4" fill="#2a78d6"/>
+<text class="l" x="308.4" y="147">6.9 min</text>
+<text class="l" x="178" y="192" text-anchor="end">Our list + watchdog</text>
+<rect x="190.0" y="176" width="120.0" height="24" rx="4" fill="#eb6834"/>
+<text class="l" x="318.0" y="193">7.5 min</text>
+</svg>
