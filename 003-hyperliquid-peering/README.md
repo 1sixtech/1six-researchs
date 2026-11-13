@@ -96,13 +96,15 @@ This was a single 34-minute run with one machine per setup, and the pinned peer 
 
 ## 5. The dashboard we use now
 
-Running the crawler by hand and reading its output was fine for one article but not for day-to-day work, so after the test we put it behind a small internal dashboard. It runs on a small machine in Tokyo, crawls the network every two minutes and asks every synced node for its block height every five seconds, using the same lag method as above.
+Running the crawler by hand was fine for one article but not for day-to-day work, so after the test we turned it into an internal tool for picking peers. It runs on a small machine in Tokyo, crawls the network every two minutes, asks every node for its block height every ten seconds and keeps the results for a week.
 
-![Our internal dashboard of the gossip network](assets/fig9-dashboard.png)
+![The peer-picking page of our internal gossip dashboard](assets/fig9-dashboard.png)
 
-*Figure 9. Our internal gossip dashboard, with IP addresses hidden. Root peers are on the left, then the nodes streaming from two or more root peers (with how many) and from just one. Each card shows the node's median lag behind the root peers over the last five minutes and whether it still has free slots, and each link is coloured by the lag of the node it feeds. Nodes two or more hops down are hidden unless switched on. Screenshot taken at 14:32 UTC on 2026-11-13.*
+*Figure 9. The main page of our internal tool, with IP addresses hidden: Tokyo nodes up to two hops below a root peer, ranked by how far they run behind the fastest root peer, and the `override_gossip_config.json` it writes from them. Screenshot taken at 16:27 UTC on 2026-11-13.*
 
-Hovering over a node highlights its path up to the root peers and its child peers; clicking it shows its lag over the last few minutes. A side panel lists the Tokyo nodes one hop below a root peer that still have free slots, ranked by their lag over the last five minutes, and can write them out as an `override_gossip_config.json`. We use it to pick peers before we start or restart a node, and to check whether the root peer above our node has started to fall behind.
+The main page ranks candidate peers and writes the config file. A second page looks up any node, ours included: where it sits, its path up to a root peer, its lag over the last 24 hours and how far it trails the best peer available. The other pages show each root peer's lag through the day and the network as a whole.
+
+The tool measures in two ways that differ from the rest of this article. It counts lag from the fastest root peer rather than the median one, so its numbers run about one block higher and never drop below zero. It also corrects each answer for the time it took to reach our machine, which matters only for nodes outside Tokyo. What it cannot see is a peer's upload rate, so we still watch the incoming rate on our node and drop a peer that sends too little.
 
 ## Appendix: the gossip messages and how we measured lag
 
