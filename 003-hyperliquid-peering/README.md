@@ -98,7 +98,7 @@ Running the crawler by hand and reading its output was fine for one article but 
 
 ![Our internal dashboard of the gossip network](assets/fig9-dashboard.png)
 
-*Figure 9. Our internal gossip dashboard, with IP addresses hidden. Each node sits on a ring by its hops from a root peer and is coloured by its current lag behind the root peers. The panels on the right show the network totals, lag by hops, the median lag of Tokyo nodes over time and each root peer's recent lag. Screenshot taken at 11:52 UTC on 2026-11-13.*
+*Figure 9. Our internal gossip dashboard, with IP addresses hidden. Each node sits on a ring by its hops from a root peer and is coloured by its current lag behind the root peers. When the network has more than 300 nodes, nodes three or more hops down are left off the graph (316 at the time) but still count in the panels. The panels on the right show the network totals, lag by hops, the median lag of Tokyo nodes over time and each root peer's recent lag. Screenshot taken at 12:42 UTC on 2026-11-13.*
 
 Clicking a node shows its path up to the root peers, the nodes it serves and its lag over the last few minutes. A side panel lists the Tokyo nodes one hop below a root peer that still have free slots, ranked by their lag over the last five minutes, and can write them out as an `override_gossip_config.json`. We use it to pick peers before we start or restart a node, and to check whether the root peer above our node has started to fall behind.
 
