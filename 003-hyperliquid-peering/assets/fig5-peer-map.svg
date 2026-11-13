@@ -81,5 +81,5 @@ text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{
 <rect class="ours" x="350" y="426" width="220" height="48" rx="8"/>
 <text class="w" x="460" y="447" text-anchor="middle">Our node</text>
 <text class="w" x="460" y="465" text-anchor="middle" style="font-weight:400;font-size:13px">69 ms behind the root peers</text>
-<text class="m" x="16" y="544">Median lag behind the root peers, 06:34–06:49 UTC, 2026-11-13; – not sampled. Operators per the node README.</text>
+<text class="m" x="16" y="544">Median lag behind the root peers, 06:34–06:49 UTC, 2026-11-13; – not sampled. Operator names from validatorSummaries; root IPs per the node README table.</text>
 </svg>

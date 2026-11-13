@@ -18,7 +18,7 @@ This time we looked at the peering itself. We wrote a small crawler for the goss
 
 A non-validating node starts from a list of seed peers, `root_node_ips` in `override_gossip_config.json`. It asks each one for its status on port 4002 and tries to open a block stream on port 4001. We call the peer a node streams blocks from its parent peer, and the nodes it streams to its child peers, as the node's own status files do. A peer only takes a limited number of child peers, and when it has no free slot it replies `Peer full`. If `try_new_peers` is on, the node then asks that peer for its child peers and tries those next. It keeps walking down the tree this way until a peer accepts it.
 
-Our crawler does the same walk, using two requests on port 4002 (described in the appendix). We started it from all 51 official root peers: 26 Foundation root peers, which the API returns for `gossipRootIps`, and 25 Validator root peers, run by validator operators and listed in the README's community table. It found 775 nodes. Almost every root peer was already full. 44 of the 45 that answered had 7 or more child peers, and 8 seems to be the limit. Two thirds of the network, 516 nodes, sits two or more hops below a root peer, and three quarters of the nodes below the root peers have a single parent peer.
+Our crawler does the same walk, using two requests on port 4002 (described in the appendix). We started it from all 51 published root peers: 26 Foundation root peers, which the API returns for `gossipRootIps`, and 25 Validator root peers from the community table in the node README, which pairs each root IP with a validator operator. It found 775 nodes. Almost every root peer was already full. 44 of the 45 that answered had 7 or more child peers, and 8 seems to be the limit. Two thirds of the network, 516 nodes, sits two or more hops below a root peer, and three quarters of the nodes below the root peers have a single parent peer.
 
 Every block a node applies has been forwarded by each node above it, so the next question was how much each hop costs.
 
@@ -60,9 +60,9 @@ We restarted without that peer. After 11 more attempts the node attached to anot
 
 ![Our node, the peers we selected and their root peers](assets/fig5-peer-map.svg)
 
-*Figure 5. The root peers above the nine peers we selected (operators as listed in the node README; child peers of each from our crawl), each selected peer's median lag behind the root peers, and the three peers our node used in the morning run (06:34 to 06:49 UTC). Source: our crawl at 06:03 UTC, our height queries and our node's log, 2026-11-13.*
+*Figure 5. The root peers above the nine peers we selected (operator names as registered on-chain in the API's `validatorSummaries`, matched to each root IP through the node README's community table; child peers of each from our crawl), each selected peer's median lag behind the root peers, and the three peers our node used in the morning run (06:34 to 06:49 UTC). Source: our crawl at 06:03 UTC, our height queries and our node's log, 2026-11-13.*
 
-**The default settings.** In a trial on the official seed list with `try_new_peers` on, as the README suggests, the node took 35 attempts to get a peer and got within about nine minutes of the chain. Then it lost that peer and stopped applying blocks. After 31 minutes and 168 attempts, 129 of them answered `Peer full`, it still had not caught up.
+**The default settings.** In a trial on the API's root peer list with `try_new_peers` on, as the README suggests, the node took 35 attempts to get a peer and got within about nine minutes of the chain. Then it lost that peer and stopped applying blocks. After 31 minutes and 168 attempts, 129 of them answered `Peer full`, it still had not caught up.
 
 ## 4. Three setups side by side
 
