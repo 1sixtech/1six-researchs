@@ -11,16 +11,16 @@ This time we looked at the peering itself. We wrote a small crawler for the goss
 
 - **Default settings:** a node on the README's defaults needed 45 minutes just to get a peer, and it never caught up during the test.
 - **Hops:** in Tokyo, every hop away from a root peer added roughly 70 to 150 ms of lag at the median.
-- **Root peers:** the Foundation nodes ran a median 73 ms ahead of the validators' sentry nodes.
+- **Root peers:** the Foundation nodes ran a median 73 ms ahead of the root peers run by validators.
 - **Picked peers:** with peers chosen from our measurements, the node ran 69 ms behind the root peers at the median and beat the public feed on BTC trades at the 95th percentile, 334 ms against 525 ms. A node pinned to a random open peer ran about half a second behind.
 
 ## 1. How a node finds its peers
 
-Hyperliquid's network has validators, which run consensus, and non-validator nodes, which follow the chain. Each validator may connect directly to up to two non-validator nodes of its own, its sentry nodes. The Foundation also runs non-validator nodes, which the API returns for `gossipRootIps`. The Foundation nodes and the validators' sentry nodes are the root peers: every other non-validator node, like ours, gets its blocks through them.
+Hyperliquid's network has validators, which run consensus, and non-validator nodes, which follow the chain. Validators keep other nodes at a distance: each connects directly to at most two non-validator nodes of its own, its sentry nodes. Non-validators start from published root peers instead: Foundation nodes, which the API returns for `gossipRootIps`, and nodes run by validators, listed in the node README. Every other non-validator node, like ours, gets its blocks through them.
 
 A non-validator node starts from a list of seed peers, `root_node_ips` in `override_gossip_config.json`. It asks each one for its status on port 4002 and tries to open a block stream on port 4001. We call the peer a node streams blocks from its parent peer, and the nodes it streams to its child peers, as the node's own status files do. A peer only takes a limited number of child peers, and when it has no free slot it replies `Peer full`. If `try_new_peers` is on, the node then asks that peer for its child peers and tries those next. It keeps walking down the tree this way until a peer accepts it.
 
-Our crawler does the same walk, using two requests on port 4002 (described in the appendix). We started it from all 51 published root peers: the 26 Foundation nodes from the API and the 25 root peers in the community table of the node README, which pairs each IP with an operator. 21 of those 25 belong to operators that are current validators, so we count them as sentry nodes. The other 4 belong to two operators that are no longer validators. It found 775 nodes. Almost every root peer was already full. 44 of the 45 that answered had 7 or more child peers. Eight looks like the default limit: it was the most common number of child peers after zero, with 149 of the 650 nodes that answered, but 50 nodes had more, mostly 9 to 21 and two with 100, so the limit can be raised. Two thirds of the network, 516 nodes, sits two or more hops below a root peer, and three quarters of the nodes below the root peers have a single parent peer.
+Our crawler does the same walk, using two requests on port 4002 (described in the appendix). We started it from all 51 published root peers: the 26 Foundation nodes from the API and the 25 root peers in the community table of the node README, which pairs each IP with an operator. 21 of those 25 belong to operators that are current validators; we call them Validator root peers. The other 4 belong to two operators that are no longer validators. It found 775 nodes. Almost every root peer was already full. 44 of the 45 that answered had 7 or more child peers. Eight looks like the default limit: it was the most common number of child peers after zero, with 149 of the 650 nodes that answered, but 50 nodes had more, mostly 9 to 21 and two with 100, so the limit can be raised. Two thirds of the network, 516 nodes, sits two or more hops below a root peer, and three quarters of the nodes below the root peers have a single parent peer.
 
 Every block a node applies has been forwarded by each node above it, so the next question was how much each hop costs.
 
@@ -42,9 +42,9 @@ Deeper nodes did better when they had more than one parent peer, since a node ap
 
 ![Each root peer's lag behind the root-peer median, by kind of root peer](assets/fig3-root-peers.svg)
 
-*Figure 3. Median lag of each root peer behind the median root peer: Foundation nodes, validators' sentry nodes, and the listed nodes whose operator is no longer a validator. Hollow markers fell more than 0.5 s behind in at least 10% of samples. Source: height queries every ~3 seconds from three machines in Tokyo, 08:22 to 08:55 UTC on 2026-11-13, about 2,000 samples per root peer; 44 of the 51 root peers answered throughout.*
+*Figure 3. Median lag of each root peer behind the median root peer: Foundation nodes, Validator root peers, and the listed nodes whose operator is no longer a validator. Hollow markers fell more than 0.5 s behind in at least 10% of samples. Source: height queries every ~3 seconds from three machines in Tokyo, 08:22 to 08:55 UTC on 2026-11-13, about 2,000 samples per root peer; 44 of the 51 root peers answered throughout.*
 
-The root peers are not equally fast either. Over half an hour of sampling from three machines, the Foundation nodes ran a median 3 ms ahead of the median root peer, while the validators' sentry nodes ran 70 ms behind. Four root peers, one Foundation node and three sentry nodes, were more than half a second behind in 20 to 34% of samples. Any node below one of them inherits that delay.
+The root peers are not equally fast either. Over half an hour of sampling from three machines, the Foundation nodes ran a median 3 ms ahead of the median root peer, while the Validator root peers ran 70 ms behind. Four root peers, one Foundation node and three Validator root peers, were more than half a second behind in 20 to 34% of samples. Any node below one of them inherits that delay.
 
 ## 3. What went wrong when we tried it
 
@@ -58,7 +58,7 @@ We restarted without that peer. After 11 more attempts the node attached to anot
 
 *Figure 4. Our node's lag behind the root peers' block height, sampled about every 3 seconds: with the slow parent peer from 06:19 UTC and with its replacement from 06:34 UTC on 2026-11-13. Source: our height queries from the node's machine.*
 
-**The root peer above us.** With the second peer, our node ran 69 ms behind the root peers at the median. Its parent peer was 70 ms behind, and the root peer above that one, a B-Harvest sentry node, was about 60 ms behind the median root peer. Most of our lag came from the root peer at the top, not from the hops below it. That is why we rank candidates by their own measured lag rather than by hops.
+**The root peer above us.** With the second peer, our node ran 69 ms behind the root peers at the median. Its parent peer was 70 ms behind, and the root peer above that one, run by B-Harvest, was about 60 ms behind the median root peer. Most of our lag came from the root peer at the top, not from the hops below it. That is why we rank candidates by their own measured lag rather than by hops.
 
 ![Our node, the peers we selected and their root peers](assets/fig5-peer-map.svg)
 
@@ -100,7 +100,7 @@ Running the crawler by hand was fine for one article but not for day-to-day work
 
 ![The peer-picking page of our internal gossip dashboard](assets/fig9-dashboard.png)
 
-*Figure 9. The main page of our internal tool, with IP addresses hidden: Tokyo nodes up to two hops below a root peer, ranked by how far they run behind the fastest root peer, and the `override_gossip_config.json` it writes from them. Screenshot taken at 16:27 UTC on 2026-11-13.*
+*Figure 9. The main page of our internal tool, with IP addresses hidden: Tokyo nodes up to two hops below a root peer, ranked by how far they run behind the fastest root peer, and the `override_gossip_config.json` it writes from them. Screenshot taken at 16:33 UTC on 2026-11-13.*
 
 The main page ranks candidate peers and writes the config file. A second page looks up any node, ours included: where it sits, its path up to a root peer, its lag over the last 24 hours and how far it trails the best peer available. The other pages show each root peer's lag through the day and the network as a whole.
 
