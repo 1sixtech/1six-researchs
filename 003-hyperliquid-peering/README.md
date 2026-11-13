@@ -5,7 +5,7 @@ Date: 2026-11-13
 
 In article 001 we ran our own non-validating Hyperliquid node and compared it with the public data feed. The hardest part of that work was getting the node connected. On the default peer settings it took 49 minutes to catch up, and most of its 174 connection attempts were answered with `Peer full`. In the end we pinned it to one peer from the README's list, without knowing whether that was a good choice or a lucky one.
 
-This time we looked at the peering itself. We wrote a small crawler for the gossip network, measured how far behind the root peers each node we could reach was running, and then started three identical nodes with different peer settings to see how much the choice matters in practice.
+This time we looked at the peering itself. We wrote a small crawler for the gossip network, measured how far behind the root peers each node we could reach was running, and then started three identical nodes with different peer settings to see how much the choice matters in practice. Afterwards we turned the crawler into an internal dashboard, which we describe at the end.
 
 ## Key takeaways
 
@@ -92,6 +92,16 @@ As in article 001, we also ran a public-feed collector on each machine and match
 
 This was a single 34-minute run with one machine per setup, and the pinned peer was a random draw, so a different draw could have landed closer to a root peer.
 
+## 5. The dashboard we use now
+
+Running the crawler by hand and reading its output was fine for one article but not for day-to-day work, so after the test we put it behind a small internal dashboard. It runs on a small machine in Tokyo, crawls the network every two minutes and asks every synced node for its block height every five seconds, using the same lag method as above.
+
+![Our internal dashboard of the gossip network](assets/fig9-dashboard.png)
+
+*Figure 9. Our internal gossip dashboard, with IP addresses hidden. Each node sits on a ring by its hops from a root peer and is coloured by its current lag behind the root peers. The panels on the right show the network totals, lag by hops, the median lag of Tokyo nodes over time and each root peer's recent lag. Screenshot taken at 11:52 UTC on 2026-11-13.*
+
+Clicking a node shows its path up to the root peers, the nodes it serves and its lag over the last few minutes. A side panel lists the Tokyo nodes one hop below a root peer that still have free slots, ranked by their lag over the last five minutes, and can write them out as an `override_gossip_config.json`. We use it to pick peers before we start or restart a node, and to check whether the root peer above our node has started to fall behind.
+
 ## Appendix: the gossip messages and how we measured lag
 
 The gossip protocol is not documented, so we captured our node's traffic with `tcpdump` while it was looking for peers and matched the bytes against the message names in its log. Each message is a 4-byte big-endian length, a flag byte and a compact binary payload. We used two requests on port 4002. `0x01` (`Peers`) returns the nodes a peer is currently streaming to, as IP addresses with two flag bytes each. `0x02` (`GossipStatus`) returns, among other fields, the peer's latest block height, or nothing while it is still syncing. Following `Peers` from the root peers gives each node's hop count, and counting how many nodes list a node gives its number of upstream peers.
@@ -103,4 +113,5 @@ For lag, each round queries all nodes at once. We shift each reported height to 
 - **Machines:** AWS `r6i.4xlarge` in Tokyo (ap-northeast-1, zone ID apne1-az1), 16 vCPU, 128 GiB of memory, gp3 volume, Ubuntu 24.04. The node from article 001 for the crawl and the morning runs, and three fresh machines for the side-by-side run.
 - **Node:** `hl-node` under `hl-visor`, run with `--write-trades --stream-with-block-info --disable-output-file-buffering`.
 - **Crawler, peer picker and watchdog:** our own Python, run on each node's machine.
+- **Dashboard:** the same crawler and height sampling in a small web service with a browser front end, on an AWS `t3.small` in Tokyo.
 - **Public feed:** the same collector as in article 001, subscribed to BTC trades on the public WebSocket API, on each node's machine and clock.
