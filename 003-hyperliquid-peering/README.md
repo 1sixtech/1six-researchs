@@ -71,7 +71,7 @@ Running the crawler by hand was fine for one article but not for day-to-day work
 
 ![The peer-picking page of our internal gossip dashboard](assets/fig9-dashboard.png)
 
-*Figure 6. The main page of our internal tool: Tokyo nodes up to two hops below a root peer, ranked by how far they run behind the fastest root peer, and the `override_gossip_config.json` it writes from them. Screenshot taken at 17:18 UTC on 2026-11-14.*
+*Figure 6. The main page of our internal tool: Tokyo nodes up to two hops below a root peer, ranked by how far they run behind the fastest root peer, and the `override_gossip_config.json` it writes from them. Screenshot taken at 17:18 UTC on 2026-11-13.*
 
 The main page ranks candidate peers and writes the config file. A second page looks up any node, ours included: where it sits, its path up to a root peer, its lag over the last 24 hours and how far it trails the best peer available. The other pages show each root peer's lag through the day and the network as a whole.
 
