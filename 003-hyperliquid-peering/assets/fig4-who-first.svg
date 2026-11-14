@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 232" width="760" height="232" role="img" aria-labelledby="t d"><title id="t">Which side received each BTC trade first: public feed or our node</title><desc id="d">Share of matched BTC trades that reached the public feed first or our node first, and by how much, for each peer setup.</desc><style>
+text{font-family:Helvetica,Arial,sans-serif;fill:#52514e;font-size:14px}
+.t{fill:#0b0b0b;font-size:17px;font-weight:700}.l{fill:#0b0b0b}.b{font-weight:700}.w{fill:#ffffff;font-weight:700}
+.grid{stroke:#e1e0d9;stroke-width:1}.axis{stroke:#c3c2b7;stroke-width:1}
+@media (prefers-color-scheme: dark){
+text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+[fill="#fcfcfb"]{fill:#1a1a19}[stroke="#fcfcfb"]{stroke:#1a1a19}
+[fill="#2a78d6"]{fill:#3987e5}[stroke="#2a78d6"]{stroke:#3987e5}[fill="#9ec5f4"]{fill:#184f95}
+[fill="#eb6834"]{fill:#d95926}[stroke="#eb6834"]{stroke:#d95926}[fill="#f6b89c"]{fill:#8a3a17}
+[stroke="#0b0b0b"]{stroke:#f0efec}}
+</style><rect width="760" height="232" fill="#fcfcfb"/>
+<text class="t" x="16" y="30">Which side received each BTC trade first: public feed or our node</text>
+<rect x="16" y="47" width="14" height="14" rx="3" fill="#2a78d6"/><text x="36" y="59">Public feed first</text>
+<rect x="186" y="47" width="14" height="14" rx="3" fill="#f6b89c"/><text x="206" y="59">Node, by under 50 ms</text>
+<rect x="366" y="47" width="14" height="14" rx="3" fill="#f08f63"/><text x="386" y="59">Node, by 50–200 ms</text>
+<rect x="556" y="47" width="14" height="14" rx="3" fill="#eb6834"/><text x="576" y="59">Node, by over 200 ms</text>
+<text class="l" x="188" y="108" text-anchor="end">One hop below B-Harvest</text><text x="188" y="126" text-anchor="end">19,830 trades</text>
+<rect x="200.0" y="90" width="363.0" height="40" rx="3" fill="#2a78d6"/>
+<text class="w" x="382.5" y="115" text-anchor="middle">68%</text>
+<rect x="565.0" y="90" width="100.6" height="40" rx="3" fill="#f6b89c"/>
+<text class="l" x="616.3" y="115" text-anchor="middle">19%</text>
+<rect x="667.6" y="90" width="53.1" height="40" rx="3" fill="#f08f63"/>
+<text class="l" x="695.2" y="115" text-anchor="middle">10%</text>
+<rect x="722.7" y="90" width="15.3" height="40" rx="3" fill="#eb6834"/>
+<text class="l" x="188" y="164" text-anchor="end">Pinned to 13.115.55.131</text><text x="188" y="182" text-anchor="end">167,708 trades</text>
+<rect x="200.0" y="146" width="0.5" height="40" rx="3" fill="#2a78d6"/>
+<rect x="201.6" y="146" width="142.2" height="40" rx="3" fill="#f6b89c"/>
+<text class="l" x="273.7" y="171" text-anchor="middle">27%</text>
+<rect x="345.8" y="146" width="342.0" height="40" rx="3" fill="#f08f63"/>
+<text class="l" x="517.8" y="171" text-anchor="middle">64%</text>
+<rect x="689.8" y="146" width="48.2" height="40" rx="3" fill="#eb6834"/>
+<text class="w" x="714.9" y="171" text-anchor="middle">9%</text>
+</svg>

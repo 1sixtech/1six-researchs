@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 360" width="760" height="360" role="img" aria-labelledby="t d"><title id="t">Each root peer's lag behind the fastest root peer, by kind</title><desc id="d">Median lag of each root peer behind the fastest root peer over 13 hours: Foundation nodes, root peers run by current validators, and listed nodes whose operator is not a validator; hollow markers were more than half a second behind in at least 10% of samples.</desc><style>
+text{font-family:Helvetica,Arial,sans-serif;fill:#52514e;font-size:14px}
+.t{fill:#0b0b0b;font-size:17px;font-weight:700}.l{fill:#0b0b0b}.b{font-weight:700}.w{fill:#ffffff;font-weight:700}
+.grid{stroke:#e1e0d9;stroke-width:1}.axis{stroke:#c3c2b7;stroke-width:1}
+@media (prefers-color-scheme: dark){
+text{fill:#c3c2b7}.t,.l{fill:#f0efec}.w{fill:#ffffff}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+[fill="#fcfcfb"]{fill:#1a1a19}[stroke="#fcfcfb"]{stroke:#1a1a19}
+[fill="#2a78d6"]{fill:#3987e5}[stroke="#2a78d6"]{stroke:#3987e5}[fill="#9ec5f4"]{fill:#184f95}
+[fill="#eb6834"]{fill:#d95926}[stroke="#eb6834"]{stroke:#d95926}[fill="#f6b89c"]{fill:#8a3a17}
+[stroke="#0b0b0b"]{stroke:#f0efec}}
+</style><rect width="760" height="360" fill="#fcfcfb"/>
+<text class="t" x="16" y="30">Each root peer's lag behind the fastest root peer, by kind</text>
+<rect x="16" y="47" width="14" height="14" rx="3" fill="#2a78d6"/><text x="36" y="59">Foundation</text><rect x="150" y="47" width="14" height="14" rx="3" fill="#eb6834"/><text x="170" y="59">Validator</text><rect x="270" y="47" width="14" height="14" rx="3" fill="#8a8a85"/><text x="290" y="59">Not a validator</text>
+<circle cx="440" cy="54" r="6" fill="#fcfcfb" stroke="#52514e" stroke-width="2"/><text x="452" y="59">often more than 0.5 s behind</text>
+<line class="grid" x1="150.0" y1="90" x2="150.0" y2="310"/><text x="150.0" y="330" text-anchor="middle">0</text>
+<line class="grid" x1="245.0" y1="90" x2="245.0" y2="310"/><text x="245.0" y="330" text-anchor="middle">100</text>
+<line class="grid" x1="340.0" y1="90" x2="340.0" y2="310"/><text x="340.0" y="330" text-anchor="middle">200</text>
+<line class="grid" x1="435.0" y1="90" x2="435.0" y2="310"/><text x="435.0" y="330" text-anchor="middle">300</text>
+<line class="grid" x1="530.0" y1="90" x2="530.0" y2="310"/><text x="530.0" y="330" text-anchor="middle">400</text>
+<line class="grid" x1="625.0" y1="90" x2="625.0" y2="310"/><text x="625.0" y="330" text-anchor="middle">500</text>
+<line class="grid" x1="720.0" y1="90" x2="720.0" y2="310"/><text x="720.0" y="330" text-anchor="middle">600</text>
+<text x="435.0" y="352" text-anchor="middle">milliseconds behind the fastest root peer, 13-hour median</text>
+<text class="l" x="136" y="135" text-anchor="end">Foundation</text>
+<circle cx="156.2" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="189.0" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="192.1" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="193.6" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="195.6" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="197.7" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="198.1" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="198.2" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="200.3" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="201.5" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="201.8" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="202.8" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="204.0" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="204.2" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="204.6" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="204.7" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="205.1" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="206.5" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="206.7" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="207.4" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="207.8" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="218.7" cy="121" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="226.2" cy="130" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="287.1" cy="139" r="6" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<line x1="203.42363357712924" y1="110" x2="203.42363357712924" y2="150" stroke="#0b0b0b" stroke-width="2"/><text class="l b" x="209.42363357712924" y="108">median 56 ms</text>
+<text class="l" x="136" y="205" text-anchor="end">Validator</text>
+<circle cx="234.5" cy="191" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="237.0" cy="200" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="240.6" cy="209" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="241.3" cy="191" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="251.7" cy="200" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="256.8" cy="209" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="257.9" cy="191" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="258.6" cy="200" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="267.0" cy="209" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="267.5" cy="191" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="269.9" cy="200" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="271.1" cy="209" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="279.8" cy="191" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="286.2" cy="200" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="298.9" cy="209" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="311.2" cy="191" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="366.8" cy="200" r="6" fill="#eb6834" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="516.5" cy="209" r="6" fill="#fcfcfb" stroke="#eb6834" stroke-width="2.5"/>
+<line x1="267.27043108345936" y1="180" x2="267.27043108345936" y2="220" stroke="#0b0b0b" stroke-width="2"/><text class="l b" x="273.27043108345936" y="178">median 123 ms</text>
+<text class="l" x="136" y="275" text-anchor="end">Not a validator</text>
+<circle cx="237.0" cy="261" r="6" fill="#8a8a85" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="239.9" cy="270" r="6" fill="#8a8a85" stroke="#fcfcfb" stroke-width="2"/>
+<line x1="238.43309443763854" y1="250" x2="238.43309443763854" y2="290" stroke="#0b0b0b" stroke-width="2"/><text class="l b" x="244.43309443763854" y="248">median 93 ms</text>
+</svg>
